@@ -58,80 +58,7 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
   };
 
   return (
-    <>
-      {/* Print Styles */}
-      <style jsx global>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          .print-area, .print-area * {
-            visibility: visible;
-          }
-          .print-area {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-          }
-          .no-print {
-            display: none !important;
-          }
-          .print-header {
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-          }
-          .print-content {
-            font-size: 12px;
-            line-height: 1.4;
-          }
-          .print-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-          }
-          .print-table th,
-          .print-table td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
-          }
-          .print-table th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-          }
-          .student-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-          }
-          .info-section {
-            margin-bottom: 15px;
-          }
-          .info-label {
-            font-weight: bold;
-            display: inline-block;
-            width: 120px;
-          }
-          .result-summary {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            border: 2px solid #000;
-            background-color: #f9f9f9;
-          }
-          .gpa-display {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-          }
-        }
-      `}</style>
-
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6">
         {/* Print Button - Hidden in print */}
         <div className="flex justify-end print:hidden no-print">
           <Button onClick={handlePrint} className="gap-2">
@@ -306,6 +233,5 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
           </div>
         </div>
       </div>
-    </>
   );
 }

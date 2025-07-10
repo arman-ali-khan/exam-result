@@ -76,34 +76,34 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
   const getResultStatusColor = (status: string) => {
     switch (status) {
       case 'Passed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/50 text-green-400 border-green-400';
       case 'Failed':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/50 text-red-400 border-red-400';
       case 'Critical':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/50 text-yellow-400 border-yellow-400';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-900/50 text-gray-400 border-gray-400';
     }
   };
 
   const getGradeColor = (grade: string) => {
     switch (grade) {
       case 'A+':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/50 text-green-400 border-green-400';
       case 'A':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/50 text-blue-400 border-blue-400';
       case 'A-':
-        return 'bg-cyan-100 text-cyan-800';
+        return 'bg-cyan-900/50 text-cyan-400 border-cyan-400';
       case 'B':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/50 text-yellow-400 border-yellow-400';
       case 'C':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-900/50 text-orange-400 border-orange-400';
       case 'D':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/50 text-red-400 border-red-400';
       case 'F':
-        return 'bg-red-200 text-red-900';
+        return 'bg-red-900/70 text-red-300 border-red-300';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-900/50 text-gray-400 border-gray-400';
     }
   };
 
@@ -136,94 +136,126 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
       </div>
 
       {/* Result Card */}
-      <Card className="print:shadow-none print:border-0">
-        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white print:bg-white print:text-black">
+      <Card className="print:shadow-none print:border-0 bg-black border-2 border-cyan-400 shadow-2xl shadow-cyan-400/20 relative overflow-hidden">
+        {/* Cyberpunk background effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-cyan-900/20 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse" />
+        
+        <CardHeader className="bg-gradient-to-r from-purple-900 via-black to-cyan-900 text-cyan-100 print:bg-white print:text-black relative z-10 border-b border-cyan-400/30">
+          {/* Glitch effect overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-purple-400/10 animate-pulse" />
           <CardTitle className="text-center text-2xl font-bold">
             {student.education_boards.name}
           </CardTitle>
-          <p className="text-center text-lg opacity-90 print:opacity-100">
+          <p className="text-center text-lg text-cyan-300 font-mono print:opacity-100 tracking-wider">
             {student.exam_sessions.name} - {student.exam_sessions.year}
           </p>
+          {/* Cyberpunk decorative elements */}
+          <div className="absolute top-2 right-2 w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
+          <div className="absolute bottom-2 left-2 w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-6 bg-black/90 text-cyan-100 relative z-10">
+          {/* Matrix-style background pattern */}
+          <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%2300ffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] pointer-events-none" />
+          
           {/* Student Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-4">
               <div>
-                <h3 className="font-semibold text-gray-600 mb-2">Student Information</h3>
-                <div className="space-y-2">
-                  <p><span className="font-medium">Name:</span> {student.name}</p>
-                  <p><span className="font-medium">Roll Number:</span> {student.roll_number}</p>
-                  <p><span className="font-medium">Registration:</span> {student.registration_number}</p>
-                  <p><span className="font-medium">Father's Name:</span> {student.father_name}</p>
-                  <p><span className="font-medium">Mother's Name:</span> {student.mother_name}</p>
-                  <p><span className="font-medium">Date of Birth:</span> {new Date(student.date_of_birth).toLocaleDateString()}</p>
+                <h3 className="font-bold text-cyan-400 mb-4 text-lg tracking-wider border-b border-cyan-400/30 pb-2 font-mono">
+                  STUDENT_DATA.exe
+                </h3>
+                <div className="space-y-3">
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; NAME:</span> <span className="text-cyan-300">{student.name}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; ROLL_ID:</span> <span className="text-green-400">{student.roll_number}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; REG_NUM:</span> <span className="text-green-400">{student.registration_number}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; FATHER:</span> <span className="text-cyan-300">{student.father_name}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; MOTHER:</span> <span className="text-cyan-300">{student.mother_name}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; DOB:</span> <span className="text-yellow-400">{new Date(student.date_of_birth).toLocaleDateString()}</span></p>
                 </div>
               </div>
             </div>
             
             <div className="space-y-4">
               <div>
-                <h3 className="font-semibold text-gray-600 mb-2">Exam Information</h3>
-                <div className="space-y-2">
-                  <p><span className="font-medium">Institute:</span> {student.institute_name}</p>
-                  <p><span className="font-medium">Board:</span> {student.education_boards.name}</p>
-                  <p><span className="font-medium">Exam Type:</span> {student.exam_type}</p>
+                <h3 className="font-bold text-cyan-400 mb-4 text-lg tracking-wider border-b border-cyan-400/30 pb-2 font-mono">
+                  EXAM_INFO.sys
+                </h3>
+                <div className="space-y-3">
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; INSTITUTE:</span> <span className="text-cyan-300">{student.institute_name}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; BOARD:</span> <span className="text-cyan-300">{student.education_boards.name}</span></p>
+                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; TYPE:</span> <span className="text-yellow-400">{student.exam_type}</span></p>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">Result:</span>
-                    <Badge className={getResultStatusColor(result.result_status)}>
+                    <span className="text-purple-400 font-bold font-mono text-sm">&gt; STATUS:</span>
+                    <Badge className={`${getResultStatusColor(result.result_status)} border border-current shadow-lg shadow-current/30`}>
                       <span className="flex items-center gap-1">
                         {getResultStatusIcon(result.result_status)}
                         {result.result_status}
                       </span>
                     </Badge>
                   </div>
-                  <p><span className="font-medium">GPA:</span> <span className="text-2xl font-bold text-green-600">{result.gpa.toFixed(2)}</span></p>
+                  <div className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 p-4 rounded border border-cyan-400/30 mt-4">
+                    <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; GPA:</span> 
+                      <span className="text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text ml-2 animate-pulse">
+                        {result.gpa.toFixed(2)}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <Separator className="my-6" />
+          <div className="my-6 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
 
           {/* Subjects Table */}
           <div>
-            <h3 className="font-semibold text-gray-600 mb-4">Subject-wise Results</h3>
-            <Table>
+            <h3 className="font-bold text-cyan-400 mb-6 text-lg tracking-wider font-mono flex items-center gap-2">
+              <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+              SUBJECT_MATRIX.db
+              <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+            </h3>
+            <div className="border border-cyan-400/30 rounded-lg overflow-hidden bg-black/50">
+            <Table className="font-mono">
               <TableHeader>
-                <TableRow>
-                  <TableHead className="w-24">Subject Code</TableHead>
-                  <TableHead>Subject Name</TableHead>
-                  <TableHead className="text-center w-24">Grade</TableHead>
-                  <TableHead className="text-center w-24">Marks</TableHead>
+                <TableRow className="border-b border-cyan-400/30 bg-gradient-to-r from-purple-900/30 to-cyan-900/30">
+                  <TableHead className="w-24 text-purple-400 font-bold">CODE</TableHead>
+                  <TableHead className="text-purple-400 font-bold">SUBJECT_NAME</TableHead>
+                  <TableHead className="text-center w-24 text-purple-400 font-bold">GRADE</TableHead>
+                  <TableHead className="text-center w-24 text-purple-400 font-bold">MARKS</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {subjects.map((subject) => (
-                  <TableRow key={subject.id}>
-                    <TableCell className="font-medium">{subject.subjects?.code}</TableCell>
-                    <TableCell>{subject.subjects?.name}</TableCell>
+                  <TableRow key={subject.id} className="border-b border-cyan-400/20 hover:bg-cyan-400/5 transition-colors">
+                    <TableCell className="font-bold text-green-400">{subject.subjects?.code}</TableCell>
+                    <TableCell className="text-cyan-300">{subject.subjects?.name}</TableCell>
                     <TableCell className="text-center">
-                      <Badge className={getGradeColor(subject.grade)}>
+                      <Badge className={`${getGradeColor(subject.grade)} border border-current shadow-lg shadow-current/30 font-bold`}>
                         {subject.grade}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-center font-medium">{subject.marks}</TableCell>
+                    <TableCell className="text-center font-bold text-yellow-400">{subject.marks}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            </div>
           </div>
 
           {/* Blockchain Verification */}
           {result.result_hash && (
-            <div className="mt-6">
-              <Alert>
-                <Shield className="h-4 w-4" />
+            <div className="mt-8">
+              <Alert className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border-2 border-cyan-400/50 shadow-lg shadow-cyan-400/20">
+                <Shield className="h-5 w-5 text-cyan-400 animate-pulse" />
                 <AlertDescription>
-                  This result is cryptographically verified. Hash: {result.result_hash.substring(0, 16)}...
+                  <div className="font-mono text-cyan-300">
+                    <div className="text-purple-400 font-bold mb-2">[BLOCKCHAIN_VERIFIED]</div>
+                    <div className="text-sm">HASH: <span className="text-green-400 break-all">{result.result_hash.substring(0, 16)}...</span></div>
                   {result.blockchain_tx_hash && (
-                    <span className="ml-2">
+                    <div className="mt-2">
+                      <span className="text-purple-400">TX_HASH: </span>
                       <a 
                         href="#"
                         onClick={(e) => {
@@ -249,12 +281,13 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
                         }}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
+                        className="text-cyan-400 hover:text-cyan-300 underline font-bold animate-pulse"
                       >
-                        View on Blockchain ↗
+                        [ACCESS_BLOCKCHAIN] ↗
                       </a>
-                    </span>
+                    </div>
                   )}
+                  </div>
                 </AlertDescription>
               </Alert>
             </div>

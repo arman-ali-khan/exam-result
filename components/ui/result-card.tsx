@@ -28,7 +28,19 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
   };
 
   const handleVerifyBlockchain = async () => {
-    if (!result.blockchain_tx_hash) return;
+    if (!result.blockchain_tx_hash) {
+      alert('No blockchain transaction hash available for verification');
+      return;
+    }
+
+    // Validate transaction hash format (should be 64 hexadecimal characters)
+    const isValidHash = /^0x[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash) || 
+                       /^[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash);
+    
+    if (!isValidHash || result.blockchain_tx_hash.replace('0x', '').length !== 64) {
+      alert(`Invalid blockchain transaction hash format. The stored hash appears to be corrupted (${result.blockchain_tx_hash.length} characters instead of 64). Please contact an administrator to re-verify this result.`);
+      return;
+    }
     
     setIsVerifying(true);
     try {
@@ -36,6 +48,7 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
       window.open(verificationLink, '_blank');
     } catch (error) {
       console.error('Error verifying blockchain:', error);
+      alert(`Error: ${error instanceof Error ? error.message : 'Invalid transaction hash'}`);
     } finally {
       setIsVerifying(false);
     }
@@ -202,7 +215,28 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
                   {result.blockchain_tx_hash && (
                     <span className="ml-2">
                       <a 
-                        href={getBlockchainVerificationLink(result.blockchain_tx_hash)}
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          try {
+                            // Validate transaction hash format before creating link
+                            if (!result.blockchain_tx_hash) {
+                              throw new Error('No transaction hash available');
+                            }
+                            
+                            const isValidHash = /^0x[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash) || 
+                                               /^[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash);
+                            
+                            if (!isValidHash || result.blockchain_tx_hash.replace('0x', '').length !== 64) {
+                              throw new Error('Invalid transaction hash format - hash appears corrupted');
+                            }
+                            
+                            const link = getBlockchainVerificationLink(result.blockchain_tx_hash);
+                            window.open(link, '_blank');
+                          } catch (error) {
+                            alert(`Error: ${error instanceof Error ? error.message : 'Invalid transaction hash'}. Please contact an administrator to re-verify this result.`);
+                          }
+                        }}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline"

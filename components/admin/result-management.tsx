@@ -126,27 +126,39 @@ export function ResultManagement() {
       // Generate hash
       const hash = generateResultHash(formattedResult);
 
-      // Verify on blockchain (mock)
-      const { txHash } = await verifyOnBlockchain(hash);
+      try {
+        // Verify on blockchain (mock)
+        const { txHash } = await verifyOnBlockchain(hash);
 
-      // Update result with hash and transaction
-      const { error: updateError } = await supabase
-        .from('results')
-        .update({
-          result_hash: hash,
-          blockchain_tx_hash: txHash,
-        })
-        .eq('id', resultId);
+        console.log('Generated transaction hash:', txHash, 'Length:', txHash.length);
+        
+        // Validate the generated transaction hash
+        if (!txHash || !/^0x[a-fA-F0-9]{64}$/.test(txHash)) {
+          throw new Error(`Invalid transaction hash generated: ${txHash} (length: ${txHash ? txHash.length : 0})`);
+        }
 
-      if (updateError) throw updateError;
+        // Update result with hash and transaction
+        const { error: updateError } = await supabase
+          .from('results')
+          .update({
+            result_hash: hash,
+            blockchain_tx_hash: txHash,
+          })
+          .eq('id', resultId);
 
-      // Refresh data
-      fetchData();
-      
-      alert('Result verified and stored on blockchain!');
+        if (updateError) throw updateError;
+
+        // Refresh data
+        fetchData();
+        
+        alert('Result verified and stored on blockchain!');
+      } catch (blockchainError) {
+        console.error('Blockchain verification error:', blockchainError);
+        throw new Error(`Blockchain verification failed: ${blockchainError instanceof Error ? blockchainError.message : 'Unknown error'}`);
+      }
     } catch (error) {
       console.error('Error verifying result:', error);
-      alert('Error verifying result. Please try again.');
+      alert(`Error verifying result: ${error instanceof Error ? error.message : 'Please try again.'}`);
     } finally {
       setVerifyingId(null);
     }
@@ -192,11 +204,16 @@ export function ResultManagement() {
               Add Result
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {selectedResult ? 'Edit Result' : 'Add New Result'}
               </DialogTitle>
+              {selectedResult && (
+                <p className="text-sm text-gray-600">
+                  Editing result for {(selectedResult as any).students?.name || 'Unknown Student'}
+                </p>
+              )}
             </DialogHeader>
             <ResultForm
               result={selectedResult}
@@ -281,7 +298,11 @@ export function ResultManagement() {
                       </TableCell>
                       <TableCell>
                         <Switch
-                          checked={result.is_published}
+                          onClick={() => {
+                            if (confirm(`Are you sure you want to delete the result for ${(result as any).students?.name || 'this student'}? This action cannot be undone.`)) {
+                              handleDelete(result.id);
+                            }
+                          }}
                           onCheckedChange={() => handlePublishToggle(result.id, result.is_published)}
                         />
                       </TableCell>

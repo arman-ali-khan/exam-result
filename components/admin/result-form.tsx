@@ -109,6 +109,24 @@ export function ResultForm({ result, students, sessions, onSuccess }: ResultForm
     setError(null);
 
     try {
+      // Check if a result already exists for this student-session combination
+      if (!result) {
+        const { data: existingResult, error: checkError } = await supabase
+          .from('results')
+          .select('id')
+          .eq('student_id', data.studentId)
+          .eq('session_id', data.sessionId)
+          .maybeSingle();
+
+        if (checkError) {
+          throw new Error(`Error checking for existing result: ${checkError.message}`);
+        }
+
+        if (existingResult) {
+          throw new Error('A result already exists for this student in the selected session. Please edit the existing result instead of creating a new one.');
+        }
+      }
+
       const resultData = {
         student_id: data.studentId,
         session_id: data.sessionId,

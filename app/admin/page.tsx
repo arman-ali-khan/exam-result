@@ -27,8 +27,13 @@ export default function AdminPage() {
 
   const checkAuthAndRole = async () => {
     try {
+      console.log('Checking authentication and role...');
+      
       const currentUser = await getCurrentUser();
+      console.log('Current user:', currentUser);
+      
       if (!currentUser) {
+        console.log('No user found');
         setIsLoading(false);
         return;
       }
@@ -36,11 +41,15 @@ export default function AdminPage() {
       setUser(currentUser);
       
       const isUserAdmin = await isAdmin(currentUser.id);
+      console.log('Is user admin?', isUserAdmin);
+      
       if (!isUserAdmin) {
+        console.log('User is not admin, redirecting to home');
         router.push('/');
         return;
       }
 
+      console.log('User is admin, setting role');
       setUserRole('admin');
     } catch (error) {
       console.error('Error checking auth:', error);
@@ -50,6 +59,7 @@ export default function AdminPage() {
   };
 
   const handleLoginSuccess = () => {
+    console.log('Login success callback triggered');
     checkAuthAndRole();
   };
 

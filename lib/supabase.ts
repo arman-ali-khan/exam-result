@@ -1,12 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables. Please check your .env.local file.');
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
+    detectSessionInUrl: true,
   },
 });
 
@@ -96,21 +101,75 @@ export interface Profile {
 
 // Helper functions
 export const getCurrentUser = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Error getting current user:', error);
+      return null;
+    }
+    return user;
+  } catch (error) {
+    console.error('Error in getCurrentUser:', error);
+    return null;
+  }
+};
+
+export const getSession = async () => {
+  try {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error('Error getting session:', error);
+      return null;
+    }
+    return session;
+  } catch (error) {
+    console.error('Error in getSession:', error);
+    return null;
+  }
+};
+
+export const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error('Error signing out:', error);
+  }
   return user;
 };
 
 export const getUserProfile = async (userId: string) => {
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', userId)
-    .maybeSingle();
-  
-  return { data, error };
+  try {
+    console.log('Getting user profile for:', userId);
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error getting user profile:', error);
+    }
+    
+    console.log('User profile data:', data);
+    return { data, error };
+  } catch (error) {
+    console.error('Error in getUserProfile:', error);
+    return { data: null, error };
+  }
 };
 
 export const isAdmin = async (userId: string) => {
-  const { data } = await getUserProfile(userId);
-  return data?.role === 'admin';
+  try {
+    const { data, error } = await getUserProfile(userId);
+    if (error || !data) {
+      console.log('No profile found or error, checking if this is the first admin user');
+      // If no profile exists, this might be the first user - make them admin
+      return false;
+    }
+    const isUserAdmin = data.role === 'admin';
+    console.log('User role check result:', isUserAdmin);
+    return isUserAdmin;
+  } catch (error) {
+    console.error('Error in isAdmin:', error);
+    return false;
+  }
 };

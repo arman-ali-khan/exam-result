@@ -33,19 +33,23 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     setError(null);
 
     try {
+      console.log('Attempting login with:', data.email);
+      
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
       if (signInError) {
+        console.error('Supabase auth error:', signInError);
         throw signInError;
       }
 
+      console.log('Login successful, calling onLoginSuccess');
       onLoginSuccess();
     } catch (error: any) {
       console.error('Login error:', error);
-      setError(error.message || 'An error occurred during login');
+      setError(error.message || 'Invalid email or password. Please try again.');
     } finally {
       setIsLoading(false);
     }

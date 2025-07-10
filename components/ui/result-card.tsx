@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Student, Result, ResultSubject, ExamSession, EducationBoard } from '@/lib/supabase';
 import { getBlockchainVerificationLink } from '@/lib/utils/web3';
+import { PrintResult } from '@/components/ui/print-result';
 
 interface ResultCardProps {
   student: Student & {
@@ -22,9 +23,14 @@ interface ResultCardProps {
 
 export function ResultCard({ student, result, subjects }: ResultCardProps) {
   const [isVerifying, setIsVerifying] = useState(false);
+  const [showPrintView, setShowPrintView] = useState(false);
 
   const handlePrint = () => {
-    window.print();
+    setShowPrintView(true);
+    setTimeout(() => {
+      window.print();
+      setShowPrintView(false);
+    }, 100);
   };
 
   const handleVerifyBlockchain = async () => {
@@ -100,6 +106,10 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
         return 'bg-gray-100 text-gray-800';
     }
   };
+
+  if (showPrintView) {
+    return <PrintResult student={student} result={result} subjects={subjects} />;
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

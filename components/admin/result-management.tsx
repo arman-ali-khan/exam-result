@@ -298,11 +298,7 @@ export function ResultManagement() {
                       </TableCell>
                       <TableCell>
                         <Switch
-                          onClick={() => {
-                            if (confirm(`Are you sure you want to delete the result for ${(result as any).students?.name || 'this student'}? This action cannot be undone.`)) {
-                              handleDelete(result.id);
-                            }
-                          }}
+                          checked={result.is_published}
                           onCheckedChange={() => handlePublishToggle(result.id, result.is_published)}
                         />
                       </TableCell>

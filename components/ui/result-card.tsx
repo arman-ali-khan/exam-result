@@ -39,7 +39,6 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
       return;
     }
 
-    // Validate transaction hash format (should be 64 hexadecimal characters)
     const isValidHash = /^0x[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash) || 
                        /^[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash);
     
@@ -76,34 +75,34 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
   const getResultStatusColor = (status: string) => {
     switch (status) {
       case 'Passed':
-        return 'bg-green-900/50 text-green-400 border-green-400';
+        return 'bg-green-100 text-green-800';
       case 'Failed':
-        return 'bg-red-900/50 text-red-400 border-red-400';
+        return 'bg-red-100 text-red-800';
       case 'Critical':
-        return 'bg-yellow-900/50 text-yellow-400 border-yellow-400';
+        return 'bg-yellow-100 text-yellow-800';
       default:
-        return 'bg-gray-900/50 text-gray-400 border-gray-400';
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getGradeColor = (grade: string) => {
     switch (grade) {
       case 'A+':
-        return 'bg-green-900/50 text-green-400 border-green-400';
+        return 'bg-green-100 text-green-800';
       case 'A':
-        return 'bg-blue-900/50 text-blue-400 border-blue-400';
+        return 'bg-blue-100 text-blue-800';
       case 'A-':
-        return 'bg-cyan-900/50 text-cyan-400 border-cyan-400';
+        return 'bg-cyan-100 text-cyan-800';
       case 'B':
-        return 'bg-yellow-900/50 text-yellow-400 border-yellow-400';
+        return 'bg-yellow-100 text-yellow-800';
       case 'C':
-        return 'bg-orange-900/50 text-orange-400 border-orange-400';
+        return 'bg-orange-100 text-orange-800';
       case 'D':
-        return 'bg-red-900/50 text-red-400 border-red-400';
+        return 'bg-red-100 text-red-800';
       case 'F':
-        return 'bg-red-900/70 text-red-300 border-red-300';
+        return 'bg-red-200 text-red-900';
       default:
-        return 'bg-gray-900/50 text-gray-400 border-gray-400';
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -136,68 +135,56 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
       </div>
 
       {/* Result Card */}
-      <Card className="print:shadow-none print:border-0 bg-black border-2 border-cyan-400 shadow-2xl shadow-cyan-400/20 relative overflow-hidden">
-        {/* Cyberpunk background effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-cyan-900/20 pointer-events-none" />
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse" />
-        
-        <CardHeader className="bg-gradient-to-r from-purple-900 via-black to-cyan-900 text-cyan-100 print:bg-white print:text-black relative z-10 border-b border-cyan-400/30">
-          {/* Glitch effect overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-purple-400/10 animate-pulse" />
+      <Card className="print:shadow-none print:border-0">
+        <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white print:bg-white print:text-black">
           <CardTitle className="text-center text-2xl font-bold">
             {student.education_boards.name}
           </CardTitle>
-          <p className="text-center text-lg text-cyan-300 font-mono print:opacity-100 tracking-wider">
+          <p className="text-center text-lg text-green-100 print:text-gray-600">
             {student.exam_sessions.name} - {student.exam_sessions.year}
           </p>
-          {/* Cyberpunk decorative elements */}
-          <div className="absolute top-2 right-2 w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
-          <div className="absolute bottom-2 left-2 w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
         </CardHeader>
-        <CardContent className="p-6 bg-black/90 text-cyan-100 relative z-10">
-          {/* Matrix-style background pattern */}
-          <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%2300ffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] pointer-events-none" />
-          
+        <CardContent className="p-6">
           {/* Student Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-4">
               <div>
-                <h3 className="font-bold text-cyan-400 mb-4 text-lg tracking-wider border-b border-cyan-400/30 pb-2 font-mono">
-                  STUDENT_DATA.exe
+                <h3 className="font-bold text-green-700 mb-3 text-lg border-b border-green-200 pb-2">
+                  Student Information
                 </h3>
-                <div className="space-y-3">
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; NAME:</span> <span className="text-cyan-300">{student.name}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; ROLL_ID:</span> <span className="text-green-400">{student.roll_number}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; REG_NUM:</span> <span className="text-green-400">{student.registration_number}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; FATHER:</span> <span className="text-cyan-300">{student.father_name}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; MOTHER:</span> <span className="text-cyan-300">{student.mother_name}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; DOB:</span> <span className="text-yellow-400">{new Date(student.date_of_birth).toLocaleDateString()}</span></p>
+                <div className="space-y-2">
+                  <p><span className="font-medium text-gray-600">Name:</span> {student.name}</p>
+                  <p><span className="font-medium text-gray-600">Roll Number:</span> {student.roll_number}</p>
+                  <p><span className="font-medium text-gray-600">Registration:</span> {student.registration_number}</p>
+                  <p><span className="font-medium text-gray-600">Father's Name:</span> {student.father_name}</p>
+                  <p><span className="font-medium text-gray-600">Mother's Name:</span> {student.mother_name}</p>
+                  <p><span className="font-medium text-gray-600">Date of Birth:</span> {new Date(student.date_of_birth).toLocaleDateString()}</p>
                 </div>
               </div>
             </div>
             
             <div className="space-y-4">
               <div>
-                <h3 className="font-bold text-cyan-400 mb-4 text-lg tracking-wider border-b border-cyan-400/30 pb-2 font-mono">
-                  EXAM_INFO.sys
+                <h3 className="font-bold text-green-700 mb-3 text-lg border-b border-green-200 pb-2">
+                  Exam Information
                 </h3>
-                <div className="space-y-3">
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; INSTITUTE:</span> <span className="text-cyan-300">{student.institute_name}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; BOARD:</span> <span className="text-cyan-300">{student.education_boards.name}</span></p>
-                  <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; TYPE:</span> <span className="text-yellow-400">{student.exam_type}</span></p>
+                <div className="space-y-2">
+                  <p><span className="font-medium text-gray-600">Institute:</span> {student.institute_name}</p>
+                  <p><span className="font-medium text-gray-600">Board:</span> {student.education_boards.name}</p>
+                  <p><span className="font-medium text-gray-600">Exam Type:</span> {student.exam_type}</p>
                   <div className="flex items-center gap-2">
-                    <span className="text-purple-400 font-bold font-mono text-sm">&gt; STATUS:</span>
-                    <Badge className={`${getResultStatusColor(result.result_status)} border border-current shadow-lg shadow-current/30`}>
+                    <span className="font-medium text-gray-600">Result Status:</span>
+                    <Badge className={getResultStatusColor(result.result_status)}>
                       <span className="flex items-center gap-1">
                         {getResultStatusIcon(result.result_status)}
                         {result.result_status}
                       </span>
                     </Badge>
                   </div>
-                  <div className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 p-4 rounded border border-cyan-400/30 mt-4">
-                    <p className="font-mono text-sm"><span className="text-purple-400 font-bold">&gt; GPA:</span> 
-                      <span className="text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text ml-2 animate-pulse">
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-200 mt-4">
+                    <p className="text-center">
+                      <span className="font-medium text-gray-600">GPA: </span>
+                      <span className="text-3xl font-bold text-green-600">
                         {result.gpa.toFixed(2)}
                       </span>
                     </p>
@@ -207,86 +194,64 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
             </div>
           </div>
 
-          <div className="my-6 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+          <Separator className="my-6" />
 
           {/* Subjects Table */}
           <div>
-            <h3 className="font-bold text-cyan-400 mb-6 text-lg tracking-wider font-mono flex items-center gap-2">
-              <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-              SUBJECT_MATRIX.db
-              <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+            <h3 className="font-bold text-green-700 mb-4 text-lg border-b border-green-200 pb-2">
+              Subject-wise Results
             </h3>
-            <div className="border border-cyan-400/30 rounded-lg overflow-hidden bg-black/50">
-            <Table className="font-mono">
+            <Table>
               <TableHeader>
-                <TableRow className="border-b border-cyan-400/30 bg-gradient-to-r from-purple-900/30 to-cyan-900/30">
-                  <TableHead className="w-24 text-purple-400 font-bold">CODE</TableHead>
-                  <TableHead className="text-purple-400 font-bold">SUBJECT_NAME</TableHead>
-                  <TableHead className="text-center w-24 text-purple-400 font-bold">GRADE</TableHead>
-                  <TableHead className="text-center w-24 text-purple-400 font-bold">MARKS</TableHead>
+                <TableRow>
+                  <TableHead className="w-24">Code</TableHead>
+                  <TableHead>Subject Name</TableHead>
+                  <TableHead className="text-center w-24">Grade</TableHead>
+                  <TableHead className="text-center w-24">Marks</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {subjects.map((subject) => (
-                  <TableRow key={subject.id} className="border-b border-cyan-400/20 hover:bg-cyan-400/5 transition-colors">
-                    <TableCell className="font-bold text-green-400">{subject.subjects?.code}</TableCell>
-                    <TableCell className="text-cyan-300">{subject.subjects?.name}</TableCell>
+                  <TableRow key={subject.id}>
+                    <TableCell className="font-medium">{subject.subjects?.code}</TableCell>
+                    <TableCell>{subject.subjects?.name}</TableCell>
                     <TableCell className="text-center">
-                      <Badge className={`${getGradeColor(subject.grade)} border border-current shadow-lg shadow-current/30 font-bold`}>
+                      <Badge className={getGradeColor(subject.grade)}>
                         {subject.grade}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-center font-bold text-yellow-400">{subject.marks}</TableCell>
+                    <TableCell className="text-center font-medium">{subject.marks}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-            </div>
           </div>
 
           {/* Blockchain Verification */}
           {result.result_hash && (
-            <div className="mt-8">
-              <Alert className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border-2 border-cyan-400/50 shadow-lg shadow-cyan-400/20">
-                <Shield className="h-5 w-5 text-cyan-400 animate-pulse" />
+            <div className="mt-6">
+              <Alert className="border-green-200 bg-green-50">
+                <Shield className="h-4 w-4 text-green-600" />
                 <AlertDescription>
-                  <div className="font-mono text-cyan-300">
-                    <div className="text-purple-400 font-bold mb-2">[BLOCKCHAIN_VERIFIED]</div>
-                    <div className="text-sm">HASH: <span className="text-green-400 break-all">{result.result_hash.substring(0, 16)}...</span></div>
-                  {result.blockchain_tx_hash && (
-                    <div className="mt-2">
-                      <span className="text-purple-400">TX_HASH: </span>
-                      <a 
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          try {
-                            // Validate transaction hash format before creating link
-                            if (!result.blockchain_tx_hash) {
-                              throw new Error('No transaction hash available');
-                            }
-                            
-                            const isValidHash = /^0x[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash) || 
-                                               /^[a-fA-F0-9]{64}$/.test(result.blockchain_tx_hash);
-                            
-                            if (!isValidHash || result.blockchain_tx_hash.replace('0x', '').length !== 64) {
-                              throw new Error('Invalid transaction hash format - hash appears corrupted');
-                            }
-                            
-                            const link = getBlockchainVerificationLink(result.blockchain_tx_hash);
-                            window.open(link, '_blank');
-                          } catch (error) {
-                            alert(`Error: ${error instanceof Error ? error.message : 'Invalid transaction hash'}. Please contact an administrator to re-verify this result.`);
-                          }
-                        }}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-cyan-400 hover:text-cyan-300 underline font-bold animate-pulse"
-                      >
-                        [ACCESS_BLOCKCHAIN] ↗
-                      </a>
+                  <div className="space-y-2">
+                    <div className="font-medium text-green-800">Blockchain Verified Result</div>
+                    <div className="text-sm text-green-700">
+                      <div>Result Hash: <span className="font-mono text-xs break-all">{result.result_hash}</span></div>
+                      {result.blockchain_tx_hash && (
+                        <div className="mt-1">
+                          Transaction Hash: 
+                          <button 
+                            onClick={handleVerifyBlockchain}
+                            className="ml-1 text-green-600 hover:text-green-800 underline font-mono text-xs"
+                          >
+                            {result.blockchain_tx_hash.substring(0, 16)}...
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  )}
+                    <p className="text-xs text-green-600 italic">
+                      This result is cryptographically verified and tamper-proof.
+                    </p>
                   </div>
                 </AlertDescription>
               </Alert>

@@ -111,7 +111,7 @@ export function StudentManagement() {
               Add Student
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl dialog">
             <DialogHeader>
               <DialogTitle>
                 {selectedStudent ? 'Edit Student' : 'Add New Student'}

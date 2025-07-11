@@ -121,8 +121,8 @@ export function SessionManagement() {
               <Plus className="h-4 w-4" />
               Add Session
             </Button>
-          </DialogTrigger>
-          <DialogContent>
+          </DialogTrigger> 
+          <DialogContent className="dialog">
             <DialogHeader>
               <DialogTitle>
                 {selectedSession ? 'Edit Exam Session' : 'Add New Exam Session'}

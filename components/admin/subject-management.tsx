@@ -88,7 +88,7 @@ export function SubjectManagement() {
               Add Subject
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="dialog">
             <DialogHeader>
               <DialogTitle>
                 {selectedSubject ? 'Edit Subject' : 'Add New Subject'}

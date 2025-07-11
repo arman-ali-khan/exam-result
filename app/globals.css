@@ -106,6 +106,10 @@ body {
   100% { transform: translate(20px, 20px); }
 }
 
+.dialog {
+    position: absolute !important;
+    top: 50% !important;
+}
 /* Glitch Effect */
 .glitch {
   position: relative;
@@ -798,6 +802,55 @@ body {
   }
 }
 
+/* Admin-specific cyberpunk styles */
+.admin-cyber-bg {
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(6, 255, 165, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, var(--cyber-black) 0%, var(--cyber-darker) 100%);
+}
+
+.admin-card {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.95) 0%,
+    rgba(15, 15, 15, 0.95) 100%
+  );
+  border: 1px solid var(--cyber-border);
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 212, 255, 0.15),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.admin-card:hover::before {
+  left: 100%;
+}
+
+.admin-card:hover {
+  border-color: var(--cyber-blue);
+  box-shadow: 
+    0 0 25px var(--cyber-glow),
+    inset 0 0 25px rgba(0, 212, 255, 0.08);
+  transform: translateY(-3px);
+}
+
 /* Animation Utilities */
 .animate-float {
   animation: float 3s ease-in-out infinite;
@@ -858,6 +911,132 @@ body {
 .cyber-text {
   font-family: 'Rajdhani', sans-serif;
   color: rgba(255, 255, 255, 0.8);
+}
+
+/* Cyberpunk Switch Styles */
+.cyber-switch {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(15, 15, 15, 0.9));
+  border: 2px solid var(--cyber-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-switch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cyber-switch:hover::before {
+  opacity: 1;
+}
+
+.cyber-switch[data-state="checked"] {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(6, 255, 165, 0.3));
+  border-color: var(--cyber-cyan);
+  box-shadow: 
+    0 0 10px rgba(0, 212, 255, 0.5),
+    inset 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.cyber-switch[data-state="unchecked"] {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(15, 15, 15, 0.9));
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cyber-switch-thumb {
+  background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-cyan));
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 8px rgba(0, 212, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cyber-switch[data-state="checked"] .cyber-switch-thumb {
+  transform: translateX(20px);
+  background: linear-gradient(135deg, var(--cyber-cyan), var(--cyber-blue));
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(6, 255, 165, 0.6);
+}
+
+.cyber-switch[data-state="unchecked"] .cyber-switch-thumb {
+  transform: translateX(0);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.8));
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced Dialog Styles */
+.cyber-dialog {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.95) 0%,
+    rgba(26, 26, 26, 0.95) 50%,
+    rgba(15, 15, 15, 0.95) 100%
+  );
+  border: 2px solid var(--cyber-border);
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-dialog::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--cyber-blue),
+    var(--cyber-purple),
+    var(--cyber-cyan),
+    var(--cyber-blue)
+  );
+  animation: dialogGlow 3s linear infinite;
+}
+
+.cyber-dialog::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 212, 255, 0.05),
+    transparent
+  );
+  animation: dialogSweep 4s ease-in-out infinite;
+}
+
+@keyframes dialogGlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes dialogSweep {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: -100%; }
+}
+
+.cyber-dialog:hover {
+  border-color: var(--cyber-cyan);
+  box-shadow: 
+    0 0 30px rgba(0, 212, 255, 0.3),
+    inset 0 0 30px rgba(0, 212, 255, 0.05);
 }
 
 /* Status Indicators */

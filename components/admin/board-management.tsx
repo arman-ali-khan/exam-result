@@ -88,7 +88,7 @@ export function BoardManagement() {
               Add Board
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="dialog">
             <DialogHeader>
               <DialogTitle>
                 {selectedBoard ? 'Edit Education Board' : 'Add New Education Board'}

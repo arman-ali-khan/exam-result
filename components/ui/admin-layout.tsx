@@ -69,14 +69,14 @@ export function AdminLayout({ children, activeTab, onTabChange }: AdminLayoutPro
 
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 glass border-r border-cyan-500/30 transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-50 w-64 admin-sidebar transform transition-transform duration-300 ease-in-out
         lg:translate-x-0 lg:static lg:inset-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="flex items-center justify-between h-16 px-4 border-b border-cyan-500/30">
+        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
           <div className="flex items-center gap-2">
-            <Shield className="h-6 w-6 text-cyan-400 animate-glow" />
-            <h1 className="text-xl font-bold cyber-title text-cyan-400">ADMIN MATRIX</h1>
+            <Shield className="h-6 w-6 text-blue-600" />
+            <h1 className="text-xl font-bold modern-title text-blue-600">Admin Panel</h1>
           </div>
           <Button
             variant="ghost"
@@ -84,11 +84,11 @@ export function AdminLayout({ children, activeTab, onTabChange }: AdminLayoutPro
             className="lg:hidden"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <X className="h-5 w-5 text-cyan-400" />
+            <X className="h-5 w-5 text-gray-600" />
           </Button>
         </div>
         
-        <nav className="p-4 relative">
+        <nav className="p-4">
           <div className="space-y-2">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -96,39 +96,38 @@ export function AdminLayout({ children, activeTab, onTabChange }: AdminLayoutPro
                 <Button
                   key={tab.id}
                   variant="ghost"
-                  className={`w-full justify-start gap-2 ${
+                  className={`w-full justify-start gap-2 admin-nav-item ${
                     activeTab === tab.id 
-                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 neon-glow' 
-                      : 'text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400 border border-transparent'
+                      ? 'active' 
+                      : ''
                   }`}
                   onClick={() => {
                     onTabChange(tab.id);
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  <Icon className={`h-4 w-4 ${activeTab === tab.id ? 'text-cyan-400' : ''}`} />
-                  <span className="font-mono">{tab.label}</span>
+                  <Icon className="h-4 w-4" />
+                  <span className="font-medium">{tab.label}</span>
                 </Button>
               );
             })}
           </div>
           
-          <Separator className="my-4 bg-cyan-500/30" />
+          <Separator className="my-4" />
           
           <Button
             variant="ghost"
-            className="w-full justify-start gap-2 text-red-400 hover:bg-red-500/10 hover:text-red-300 border border-transparent hover:border-red-500/50"
+            className="w-full justify-start gap-2 text-red-600 hover:bg-red-50 hover:text-red-700"
             onClick={handleLogout}
           >
             <LogOut className="h-4 w-4" />
-            <span className="font-mono">LOGOUT</span>
+            <span className="font-medium">Logout</span>
           </Button>
           
-          {/* Sidebar decorative elements */}
           <div className="absolute bottom-4 left-4 right-4">
-            <div className="flex items-center gap-2 text-xs cyber-text opacity-60">
-              <Cpu className="w-3 h-3" />
-              <span className="font-mono">NEURAL INTERFACE v2.0</span>
+            <div className="flex items-center gap-2 text-xs modern-text">
+              <Shield className="w-3 h-3" />
+              <span>Admin Panel v2.0</span>
             </div>
           </div>
         </nav>
@@ -137,17 +136,17 @@ export function AdminLayout({ children, activeTab, onTabChange }: AdminLayoutPro
       {/* Main Content */}
       <div className="flex-1 lg:ml-0 relative z-10">
         {/* Mobile Header */}
-        <div className="lg:hidden glass border-b border-cyan-500/30 px-4 py-3">
+        <div className="lg:hidden glass border-b border-gray-200 px-4 py-3">
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsMobileMenuOpen(true)}
-              className="text-cyan-400"
+              className="text-gray-600"
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <h1 className="text-lg font-semibold cyber-subtitle text-cyan-400">
+            <h1 className="text-lg font-semibold modern-subtitle text-blue-600">
               {tabs.find(tab => tab.id === activeTab)?.label}
             </h1>
             <div className="w-8" />

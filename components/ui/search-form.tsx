@@ -12,7 +12,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { searchSchema, type SearchFormData } from '@/lib/validations';
 import { EducationBoard, ExamSession } from '@/lib/supabase';
-import { CyberLoader } from '@/components/ui/cyber-loader';
 
 interface SearchFormProps {
   boards: EducationBoard[];
@@ -37,35 +36,32 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
   };
 
   return (
-    <Card className="cyber-card max-w-4xl mx-auto metallic-gradient">
-      <CardHeader className="text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-cyan-500/10 animate-pulse" />
-        <div className="relative z-10">
-          <CardTitle className="text-3xl font-bold cyber-title mb-2">
-            NEURAL SEARCH INTERFACE
+    <Card className="modern-card max-w-4xl mx-auto">
+      <CardHeader className="text-center">
+          <CardTitle className="text-3xl font-bold modern-title mb-2">
+            Search for Results
           </CardTitle>
-          <CardDescription className="cyber-text text-lg">
-            Enter your credentials to access the quantum result matrix
+          <CardDescription className="modern-text text-lg">
+            Enter your information to access your examination results
           </CardDescription>
           <div className="flex justify-center gap-4 mt-4">
-            <div className="flex items-center gap-2 text-cyan-400 text-sm">
+            <div className="flex items-center gap-2 text-blue-600 text-sm">
               <Shield className="w-4 h-4" />
-              <span className="font-mono">ENCRYPTED</span>
+              <span className="font-medium">Secure</span>
             </div>
-            <div className="flex items-center gap-2 text-purple-400 text-sm">
+            <div className="flex items-center gap-2 text-green-600 text-sm">
               <Zap className="w-4 h-4" />
-              <span className="font-mono">REAL-TIME</span>
+              <span className="font-medium">Real-time</span>
             </div>
           </div>
-        </div>
       </CardHeader>
-      <CardContent className="relative">
+      <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
             {/* Credential Input Section */}
             <div className="space-y-6">
               <div className="text-center">
-                <h3 className="cyber-subtitle text-lg mb-4">AUTHENTICATION CREDENTIALS</h3>
+                <h3 className="modern-subtitle text-lg mb-4">Student Information</h3>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -74,18 +70,15 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
                   name="rollNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="cyber-subtitle text-sm">ROLL NUMBER</FormLabel>
+                      <FormLabel className="modern-subtitle text-sm">Roll Number</FormLabel>
                       <FormControl>
-                        <div className="relative">
                           <Input
                             placeholder="Enter roll number"
                             {...field}
-                            className="cyber-card border-cyan-500/30 bg-black/50 text-cyan-400 placeholder:text-cyan-400/50 font-mono h-12 focus:border-cyan-400 focus:ring-cyan-400/30"
+                            className="modern-input h-12"
                           />
-                          <div className="absolute inset-0 border border-cyan-500/20 rounded-md pointer-events-none animate-pulse" />
-                        </div>
                       </FormControl>
-                      <FormMessage className="text-red-400" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -95,26 +88,23 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
                   name="registrationNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="cyber-subtitle text-sm">REGISTRATION ID</FormLabel>
+                      <FormLabel className="modern-subtitle text-sm">Registration Number</FormLabel>
                       <FormControl>
-                        <div className="relative">
                           <Input
                             placeholder="Enter registration number"
                             {...field}
-                            className="cyber-card border-purple-500/30 bg-black/50 text-purple-400 placeholder:text-purple-400/50 font-mono h-12 focus:border-purple-400 focus:ring-purple-400/30"
+                            className="modern-input h-12"
                           />
-                          <div className="absolute inset-0 border border-purple-500/20 rounded-md pointer-events-none animate-pulse" />
-                        </div>
                       </FormControl>
-                      <FormMessage className="text-red-400" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
               
               <div className="text-center">
-                <p className="cyber-text text-sm">
-                  <span className="text-cyan-400">PROTOCOL:</span> Provide either Roll Number OR Registration ID
+                <p className="modern-text text-sm">
+                  <span className="text-blue-600 font-medium">Note:</span> Provide either Roll Number OR Registration Number
                 </p>
               </div>
             </div>
@@ -122,7 +112,7 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
             {/* Network Selection Section */}
             <div className="space-y-6">
               <div className="text-center">
-                <h3 className="cyber-subtitle text-lg mb-4">NETWORK PARAMETERS</h3>
+                <h3 className="modern-subtitle text-lg mb-4">Examination Details</h3>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -131,18 +121,18 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
                   name="boardId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="cyber-subtitle text-sm">EDUCATION NODE</FormLabel>
+                      <FormLabel className="modern-subtitle text-sm">Education Board</FormLabel>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="cyber-card border-cyan-500/30 bg-black/50 text-cyan-400 h-12 font-mono">
+                          <SelectTrigger className="modern-input h-12">
                             <SelectValue placeholder="Select education board" />
                           </SelectTrigger>
-                          <SelectContent className="cyber-card border-cyan-500/30 bg-black/90">
+                          <SelectContent className="modern-card">
                             {boards.map((board) => (
                               <SelectItem 
                                 key={board.id} 
                                 value={board.id}
-                                className="text-cyan-400 hover:bg-cyan-500/20 font-mono"
+                                className="hover:bg-gray-50"
                               >
                                 {board.name}
                               </SelectItem>
@@ -150,7 +140,7 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-red-400" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -160,18 +150,18 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
                   name="sessionId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="cyber-subtitle text-sm">SESSION MATRIX</FormLabel>
+                      <FormLabel className="modern-subtitle text-sm">Exam Session</FormLabel>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="cyber-card border-purple-500/30 bg-black/50 text-purple-400 h-12 font-mono">
+                          <SelectTrigger className="modern-input h-12">
                             <SelectValue placeholder="Select exam session" />
                           </SelectTrigger>
-                          <SelectContent className="cyber-card border-purple-500/30 bg-black/90">
+                          <SelectContent className="modern-card">
                             {sessions.map((session) => (
                               <SelectItem 
                                 key={session.id} 
                                 value={session.id}
-                                className="text-purple-400 hover:bg-purple-500/20 font-mono"
+                                className="hover:bg-gray-50"
                               >
                                 {session.name} - {session.year}
                               </SelectItem>
@@ -179,7 +169,7 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-red-400" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -190,18 +180,18 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
             <div className="text-center pt-4">
               <Button
                 type="submit"
-                className="w-full md:w-auto px-12 h-14 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-black font-bold text-lg cyber-subtitle transition-all duration-300 transform hover:scale-105 neon-glow"
+                className="w-full md:w-auto px-12 h-14 modern-button text-lg font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <div className="flex items-center gap-3">
-                    <CyberLoader size="small" />
-                    <span>ACCESSING MATRIX...</span>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Searching...</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-3">
                     <Search className="h-5 w-5" />
-                    <span>INITIATE SEARCH</span>
+                    <span>Search Results</span>
                     <Zap className="h-5 w-5" />
                   </div>
                 )}
@@ -209,10 +199,6 @@ export function SearchForm({ boards, sessions, onSearch, isLoading }: SearchForm
             </div>
           </form>
         </Form>
-        
-        {/* Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 opacity-50" />
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-cyan-500 to-purple-500 opacity-50" />
       </CardContent>
     </Card>
   );

@@ -37,8 +37,8 @@ export function WalletStatus() {
     return (
       <div className="wallet-status wallet-connected">
         <div className="flex items-center gap-2">
-          <Wifi className="w-4 h-4 text-cyan-400" />
-          <span className="font-mono text-sm text-cyan-400">
+          <Wifi className="w-4 h-4 text-green-600" />
+          <span className="font-mono text-sm text-green-600">
             {formatAddress(address)}
           </span>
         </div>
@@ -46,9 +46,9 @@ export function WalletStatus() {
           variant="ghost"
           size="sm"
           onClick={disconnectWallet}
-          className="text-xs text-cyan-400 hover:text-cyan-300 p-1 h-auto"
+          className="text-xs text-green-600 hover:text-green-700 p-1 h-auto"
         >
-          DISCONNECT
+          Disconnect
         </Button>
       </div>
     );
@@ -64,13 +64,13 @@ export function WalletStatus() {
     >
       {isConnecting ? (
         <>
-          <div className="w-4 h-4 border-2 border-pink-400 border-t-transparent rounded-full animate-spin" />
-          <span className="font-mono text-sm">CONNECTING...</span>
+          <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <span className="font-mono text-sm">Connecting...</span>
         </>
       ) : (
         <>
           <Wallet className="w-4 h-4" />
-          <span className="font-mono text-sm">CONNECT WALLET</span>
+          <span className="font-mono text-sm">Connect Wallet</span>
         </>
       )}
     </Button>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Users, GraduationCap, BookOpen, FileText, TrendingUp, Calendar, Shield, Cpu, Zap, Activity } from 'lucide-react';
+import { Users, GraduationCap, BookOpen, FileText, TrendingUp, Calendar,CheckCircle , Shield, Cpu, Zap, Activity } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -132,17 +132,11 @@ export function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen relative">
-        {/* Cyberpunk Background */}
-        <div className="cyber-bg">
-          <div className="hex-grid"></div>
-          <div className="circuit-pattern"></div>
-        </div>
-        
-        <div className="space-y-6 relative z-10">
+      <div className="min-h-screen modern-bg">
+        <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className="cyber-card animate-pulse">
+              <Card key={i} className="modern-card animate-pulse">
                 <CardContent className="p-6">
                   <div className="h-20 bg-gray-700/50 rounded"></div>
                 </CardContent>
@@ -155,30 +149,24 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen relative">
-      {/* Cyberpunk Background */}
-      <div className="cyber-bg">
-        <div className="hex-grid"></div>
-        <div className="circuit-pattern"></div>
-      </div>
-
-      <div className="space-y-8 relative z-10">
+    <div className="min-h-screen modern-bg">
+      <div className="space-y-8">
         {/* Header */}
-        <div className="flex items-center justify-between animate-slide-in">
+        <div className="flex items-center justify-between animate-fade-in">
           <div>
-            <h1 className="text-4xl font-bold cyber-title glitch" data-text="ADMIN NEURAL MATRIX">
-              ADMIN NEURAL MATRIX
+            <h1 className="text-4xl font-bold modern-title">
+              Admin Dashboard
             </h1>
-            <p className="cyber-text mt-2">Quantum-secured administrative interface</p>
+            <p className="modern-text mt-2">Manage your education system</p>
           </div>
           <div className="flex items-center gap-4">
-            <Badge className="blockchain-indicator">
+            <Badge className="modern-badge modern-badge-success">
               <Shield className="w-3 h-3" />
-              ADMIN ACCESS
+              Admin Access
             </Badge>
-            <Badge className="blockchain-indicator">
+            <Badge className="modern-badge modern-badge-success">
               <Activity className="w-3 h-3" />
-              LIVE DATA
+              Live Data
             </Badge>
           </div>
         </div>
@@ -190,22 +178,21 @@ export function AdminDashboard() {
             return (
               <Card 
                 key={index} 
-                className={`cyber-card hover:neon-glow transition-all duration-300 ${stat.borderColor} bg-gradient-to-br ${stat.bgGradient} animate-slide-in`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="modern-card transition-all duration-300 animate-fade-in"
               >
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium cyber-text opacity-80">{stat.title}</p>
-                      <p className={`text-3xl font-bold cyber-title ${stat.color}`}>{stat.value}</p>
+                      <p className="text-sm font-medium modern-text">{stat.title}</p>
+                      <p className="text-3xl font-bold text-blue-600">{stat.value}</p>
                     </div>
-                    <div className={`p-3 rounded-full bg-black/30 border ${stat.borderColor}`}>
-                      <Icon className={`h-6 w-6 ${stat.color} animate-float`} />
+                    <div className="p-3 rounded-full bg-blue-50 border border-blue-200">
+                      <Icon className="h-6 w-6 text-blue-600" />
                     </div>
                   </div>
                   <div className="mt-4 flex items-center gap-2">
-                    <Cpu className={`w-3 h-3 ${stat.color}`} />
-                    <span className="text-xs cyber-text opacity-60">QUANTUM VERIFIED</span>
+                    <CheckCircle className="w-3 h-3 text-green-600" />
+                    <span className="text-xs modern-text">Verified Data</span>
                   </div>
                 </CardContent>
               </Card>
@@ -214,58 +201,54 @@ export function AdminDashboard() {
         </div>
 
         {/* Recent Results */}
-        <Card className="cyber-card metallic-gradient animate-slide-in" style={{ animationDelay: '0.6s' }}>
-          <CardHeader className="relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-cyan-500/10" />
-            <div className="relative z-10">
-              <CardTitle className="cyber-subtitle text-cyan-400 flex items-center gap-2">
-                <Zap className="w-5 h-5" />
-                RECENT NEURAL RESULTS
+        <Card className="modern-card animate-fade-in">
+          <CardHeader>
+              <CardTitle className="modern-subtitle text-blue-600 flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                Recent Results
               </CardTitle>
-              <CardDescription className="cyber-text">
-                Latest examination results processed through the quantum matrix
+              <CardDescription className="modern-text">
+                Latest examination results in the system
               </CardDescription>
-            </div>
           </CardHeader>
-          <CardContent className="relative">
+          <CardContent>
             {recentResults.length === 0 ? (
               <div className="text-center py-12">
-                <div className="cyber-loader mx-auto mb-4"></div>
-                <p className="cyber-text">
-                  No results found. Initialize the neural network with examination data.
+                <div className="modern-loader mx-auto mb-4"></div>
+                <p className="modern-text">
+                  No results found. Add examination data to get started.
                 </p>
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <Table>
+                <Table className="modern-table">
                   <TableHeader>
-                    <TableRow className="border-cyan-500/30">
-                      <TableHead className="cyber-subtitle text-cyan-400">STUDENT</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400">ROLL ID</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400">SESSION</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400">GPA</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400">STATUS</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400">PUBLISHED</TableHead>
+                    <TableRow>
+                      <TableHead className="modern-subtitle">Student</TableHead>
+                      <TableHead className="modern-subtitle">Roll Number</TableHead>
+                      <TableHead className="modern-subtitle">Session</TableHead>
+                      <TableHead className="modern-subtitle">GPA</TableHead>
+                      <TableHead className="modern-subtitle">Status</TableHead>
+                      <TableHead className="modern-subtitle">Published</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {recentResults.map((result, index) => (
                       <TableRow 
                         key={result.id} 
-                        className="border-cyan-500/20 hover:bg-cyan-500/5 transition-colors animate-slide-in"
-                        style={{ animationDelay: `${index * 0.1}s` }}
+                        className="hover:bg-gray-50 transition-colors"
                       >
-                        <TableCell className="font-medium cyber-text">
-                          {result.students?.name || 'UNKNOWN_ENTITY'}
+                        <TableCell className="font-medium">
+                          {result.students?.name || 'Unknown'}
                         </TableCell>
-                        <TableCell className="font-mono text-purple-400">
+                        <TableCell className="font-mono text-gray-600">
                           {result.students?.roll_number || 'N/A'}
                         </TableCell>
-                        <TableCell className="cyber-text">
+                        <TableCell className="modern-text">
                           {result.exam_sessions?.name} {result.exam_sessions?.year}
                         </TableCell>
                         <TableCell>
-                          <span className="font-bold text-cyan-400 font-mono text-lg">
+                          <span className="font-bold text-blue-600 font-mono text-lg">
                             {result.gpa.toFixed(2)}
                           </span>
                         </TableCell>
@@ -273,10 +256,10 @@ export function AdminDashboard() {
                           <Badge
                             className={
                               result.result_status === 'Passed' 
-                                ? 'bg-green-500/20 text-green-400 border-green-500/50' 
+                                ? 'modern-badge-success' 
                                 : result.result_status === 'Critical'
-                                ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50'
-                                : 'bg-red-500/20 text-red-400 border-red-500/50'
+                                ? 'modern-badge-warning'
+                                : 'modern-badge-error'
                             }
                           >
                             {result.result_status}
@@ -286,11 +269,11 @@ export function AdminDashboard() {
                           <Badge 
                             className={
                               result.is_published 
-                                ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/50' 
-                                : 'bg-gray-500/20 text-gray-400 border-gray-500/50'
+                                ? 'modern-badge-success' 
+                                : 'modern-badge'
                             }
                           >
-                            {result.is_published ? 'LIVE' : 'DRAFT'}
+                            {result.is_published ? 'Published' : 'Draft'}
                           </Badge>
                         </TableCell>
                       </TableRow>
@@ -299,36 +282,32 @@ export function AdminDashboard() {
                 </Table>
               </div>
             )}
-            
-            {/* Decorative Elements */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 opacity-50" />
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-cyan-500 to-purple-500 opacity-50" />
           </CardContent>
         </Card>
 
         {/* System Status */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-slide-in" style={{ animationDelay: '0.8s' }}>
-          <Card className="cyber-card border-cyan-500/30">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
+          <Card className="modern-card">
             <CardContent className="p-6 text-center">
-              <Shield className="w-8 h-8 text-cyan-400 mx-auto mb-2 animate-float" />
-              <div className="text-lg font-bold text-cyan-400 font-mono">SECURE</div>
-              <div className="text-sm cyber-text">Quantum Encryption</div>
+              <Shield className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+              <div className="text-lg font-bold text-blue-600">Secure</div>
+              <div className="text-sm modern-text">Digital Encryption</div>
             </CardContent>
           </Card>
           
-          <Card className="cyber-card border-purple-500/30">
+          <Card className="modern-card">
             <CardContent className="p-6 text-center">
-              <Activity className="w-8 h-8 text-purple-400 mx-auto mb-2 animate-pulse" />
-              <div className="text-lg font-bold text-purple-400 font-mono">ONLINE</div>
-              <div className="text-sm cyber-text">Neural Network</div>
+              <Activity className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <div className="text-lg font-bold text-green-600">Online</div>
+              <div className="text-sm modern-text">System Status</div>
             </CardContent>
           </Card>
           
-          <Card className="cyber-card border-green-500/30">
+          <Card className="modern-card">
             <CardContent className="p-6 text-center">
-              <Zap className="w-8 h-8 text-green-400 mx-auto mb-2 animate-bounce" />
-              <div className="text-lg font-bold text-green-400 font-mono">SYNCED</div>
-              <div className="text-sm cyber-text">Blockchain Ledger</div>
+              <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <div className="text-lg font-bold text-green-600">Synced</div>
+              <div className="text-sm modern-text">Data Status</div>
             </CardContent>
           </Card>
         </div>

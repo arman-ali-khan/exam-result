@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Printer as Print, Shield, Cpu, Zap } from 'lucide-react';
+import { Printer as Print, Shield, Cpu, Zap,CheckCircle  } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -63,14 +63,14 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
         <div className="flex justify-end print:hidden no-print">
           <Button onClick={handlePrint} className="gap-2 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-black font-bold">
             <Print className="h-4 w-4" />
-            DOWNLOAD RESULT
+            Download Result
           </Button>
         </div>
 
         {/* Print Area */}
         <div className="print-area">
           {/* Header */}
-          <div className="print-header cyber-print-header">
+          <div className="print-header">
             <div className="print-logo-section">
               <div className="print-logo">
                 <Shield className="h-8 w-8" />
@@ -82,16 +82,16 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
                 <h2 className="print-subtitle">
                   {student.exam_sessions.name} - {student.exam_sessions.year}
                 </h2>
-                <p className="print-tagline">QUANTUM-VERIFIED RESULT CERTIFICATE</p>
+                <p className="print-tagline">OFFICIAL RESULT CERTIFICATE</p>
               </div>
               <div className="print-verification-badges">
                 <div className="print-badge">
-                  <Cpu className="h-4 w-4" />
-                  <span>VERIFIED</span>
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Verified</span>
                 </div>
                 <div className="print-badge">
                   <Shield className="h-4 w-4" />
-                  <span>SECURED</span>
+                  <span>Secured</span>
                 </div>
               </div>
             </div>
@@ -99,36 +99,36 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
 
           <div className="print-content">
             {/* Student Information */}
-            <div className="student-info cyber-grid-three">
+            <div className="student-info">
               <div className="info-panel">
                 <div className="info-section">
                   <h3 className="section-title">
                     <span className="section-icon">👤</span>
-                    STUDENT PROFILE
+                    Student Information
                   </h3>
                   <div className="info-grid">
                     <div className="info-item">
-                      <span className="info-label">NAME:</span>
+                      <span className="info-label">Name:</span>
                       <span className="info-value">{student.name}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">ROLL:</span>
+                      <span className="info-label">Roll:</span>
                       <span className="info-value">{student.roll_number}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">REGISTRATION:</span>
+                      <span className="info-label">Registration:</span>
                       <span className="info-value">{student.registration_number}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">FATHER'S NAME:</span>
+                      <span className="info-label">Father's Name:</span>
                       <span className="info-value">{student.father_name}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">MOTHER'S NAME:</span>
+                      <span className="info-label">Mother's Name:</span>
                       <span className="info-value">{student.mother_name}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">DATE OF BIRTH:</span>
+                      <span className="info-label">Date of Birth:</span>
                       <span className="info-value">{new Date(student.date_of_birth).toLocaleDateString()}</span>
                     </div>
                   </div>
@@ -139,23 +139,23 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
                 <div className="info-section">
                   <h3 className="section-title">
                     <span className="section-icon">🏫</span>
-                    EXAMINATION DETAILS
+                    Examination Details
                   </h3>
                   <div className="info-grid">
                     <div className="info-item">
-                      <span className="info-label">INSTITUTE:</span>
+                      <span className="info-label">Institute:</span>
                       <span className="info-value">{student.institute_name}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">BOARD:</span>
+                      <span className="info-label">Board:</span>
                       <span className="info-value">{student.education_boards.name}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">EXAM TYPE:</span>
+                      <span className="info-label">Exam Type:</span>
                       <span className="info-value">{student.exam_type}</span>
                     </div>
                     <div className="info-item">
-                      <span className="info-label">SESSION:</span>
+                      <span className="info-label">Session:</span>
                       <span className="info-value">{student.exam_sessions.name} - {student.exam_sessions.year}</span>
                     </div>
                   </div>
@@ -167,11 +167,11 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
                 <div className="info-section">
                   <h3 className="section-title">
                     <span className="section-icon">📊</span>
-                    PERFORMANCE ANALYSIS
+                    Performance Summary
                   </h3>
                   <div className="performance-grid">
                     <div className="performance-item">
-                      <span className="performance-label">RESULT STATUS</span>
+                      <span className="performance-label">Result Status</span>
                       <div className="performance-value status-value">
                         <span className="status-icon">{getResultStatusIcon(result.result_status)}</span>
                         <span className="status-text">{result.result_status}</span>
@@ -185,7 +185,7 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
                       </div>
                     </div>
                     <div className="performance-item">
-                      <span className="performance-label">TOTAL MARKS</span>
+                      <span className="performance-label">Total Marks</span>
                       <div className="performance-value marks-value">{result.total_marks}</div>
                     </div>
                   </div>
@@ -197,26 +197,26 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
             <div className="subjects-section">
               <h3 className="section-title subjects-title">
                 <span className="section-icon">📚</span>
-                SUBJECT PERFORMANCE MATRIX
+                Subject Performance
               </h3>
-              <table className="print-table cyber-table">
+              <table className="print-table">
                 <thead>
-                  <tr className="table-header">
-                    <th className="table-header-cell">CODE</th>
-                    <th className="table-header-cell">SUBJECT NAME</th>
-                    <th className="table-header-cell center">GRADE</th>
-                    <th className="table-header-cell center">MARKS</th>
+                  <tr>
+                    <th>Code</th>
+                    <th>Subject Name</th>
+                    <th className="text-center">Grade</th>
+                    <th className="text-center">Marks</th>
                   </tr>
                 </thead>
                 <tbody>
                   {subjects.map((subject, index) => (
-                    <tr key={subject.id} className="table-row">
-                      <td className="table-cell code-cell">{subject.subjects?.code}</td>
-                      <td className="table-cell subject-cell">{subject.subjects?.name}</td>
-                      <td className="table-cell center grade-cell">
-                        <span className="grade-badge">{subject.grade}</span>
+                    <tr key={subject.id}>
+                      <td className="font-mono font-semibold">{subject.subjects?.code}</td>
+                      <td>{subject.subjects?.name}</td>
+                      <td className="text-center">
+                        <span className="inline-block px-2 py-1 border rounded font-semibold">{subject.grade}</span>
                       </td>
-                      <td className="table-cell center marks-cell">{subject.marks}</td>
+                      <td className="text-center font-mono font-semibold">{subject.marks}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -224,37 +224,37 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
             </div>
 
             {/* Footer */}
-            <div className="print-footer cyber-footer">
+            <div className="print-footer">
               <div className="footer-content">
                 <div className="footer-info">
-                  <p className="footer-title">OFFICIAL RESULT CERTIFICATE</p>
+                  <p className="footer-title">Official Result Certificate</p>
                   <p className="footer-subtitle">Issued by {student.education_boards.name}</p>
                   <p className="footer-date">Generated: {new Date().toLocaleDateString()}</p>
                 </div>
                 <div className="footer-signatures">
                   <div className="signature-block">
                     <div className="signature-line"></div>
-                    <p className="signature-title">CONTROLLER OF EXAMINATIONS</p>
+                    <p className="signature-title">Controller of Examinations</p>
                   </div>
                   <div className="signature-block">
                     <div className="signature-line"></div>
-                    <p className="signature-title">CHAIRMAN</p>
+                    <p className="signature-title">Chairman</p>
                   </div>
                 </div>
                 <div className="footer-tech">
                   <div className="tech-badge">
-                    <Zap className="h-3 w-3" />
-                    <span>QUANTUM VERIFIED</span>
+                    <CheckCircle className="h-3 w-3" />
+                    <span>Digitally Verified</span>
                   </div>
                   <div className="tech-badge">
                     <Shield className="h-3 w-3" />
-                    <span>BLOCKCHAIN SECURED</span>
+                    <span>Digitally Secured</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+    </div>
   );
 }

@@ -18,9 +18,9 @@ export function BlockchainIndicator() {
 
   const getStatusColor = () => {
     switch (networkStatus) {
-      case 'online': return 'text-cyan-400';
-      case 'syncing': return 'text-yellow-400';
-      case 'offline': return 'text-red-400';
+      case 'online': return 'text-blue-600';
+      case 'syncing': return 'text-yellow-600';
+      case 'offline': return 'text-red-600';
     }
   };
 
@@ -36,7 +36,7 @@ export function BlockchainIndicator() {
     <div className="blockchain-indicator">
       {getStatusIcon()}
       <span className="font-mono text-xs">
-        BLOCK #{blockHeight.toLocaleString()}
+        Block #{blockHeight.toLocaleString()}
       </span>
       <div className={`w-2 h-2 rounded-full ${getStatusColor().replace('text-', 'bg-')} animate-pulse`} />
     </div>

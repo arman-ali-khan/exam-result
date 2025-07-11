@@ -56,14 +56,14 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen modern-bg flex items-center justify-center p-4">
+      <Card className="w-full max-w-md modern-card">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <GraduationCap className="h-8 w-8 text-green-600" />
-            <h1 className="text-2xl font-bold text-green-700">Admin Portal</h1>
+            <GraduationCap className="h-8 w-8 text-blue-600" />
+            <h1 className="text-2xl font-bold modern-title">Admin Portal</h1>
           </div>
-          <CardTitle className="text-xl">Welcome Back</CardTitle>
+          <CardTitle className="text-xl modern-subtitle">Welcome Back</CardTitle>
           <CardDescription>
             Sign in to access the admin dashboard
           </CardDescription>
@@ -81,6 +81,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                       <Input
                         type="email"
                         placeholder="Enter your email"
+                        className="modern-input"
                         {...field}
                       />
                     </FormControl>
@@ -99,6 +100,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                       <Input
                         type="password"
                         placeholder="Enter your password"
+                        className="modern-input"
                         {...field}
                       />
                     </FormControl>
@@ -115,7 +117,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
               <Button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700"
+                className="w-full modern-button"
                 disabled={isLoading}
               >
                 {isLoading ? (

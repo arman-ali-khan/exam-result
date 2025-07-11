@@ -1,13 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, GraduationCap, Shield, Users, Award, Cpu, Zap, Globe } from 'lucide-react';
+import { Search, GraduationCap, Shield, Users, Award, CheckCircle, Zap, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SearchForm } from '@/components/ui/search-form';
 import { ResultCard } from '@/components/ui/result-card';
-import { CyberLoader } from '@/components/ui/cyber-loader';
 import { WalletStatus } from '@/components/ui/wallet-status';
 import { BlockchainIndicator } from '@/components/ui/blockchain-indicator';
 import { supabase, EducationBoard, ExamSession, Student, Result, ResultSubject } from '@/lib/supabase';
@@ -83,13 +82,14 @@ export default function Home() {
         query = query.eq('registration_number', searchData.registrationNumber);
       }
 
-      const { data: studentData, error: studentError } = await query.single();
+      const { data: studentData, error: studentError } = await query.maybeSingle();
 
       if (studentError) {
-        if (studentError.code === 'PGRST116') {
-          throw new Error('No result found with the provided information');
-        }
         throw studentError;
+      }
+
+      if (!studentData) {
+        throw new Error('No student found with the provided information');
       }
 
       // Fetch published result for this student
@@ -140,43 +140,29 @@ export default function Home() {
 
   if (isInitialLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="cyber-bg">
-          <div className="hex-grid"></div>
-          <div className="circuit-pattern"></div>
-        </div>
-        <CyberLoader size="large" />
+      <div className="min-h-screen flex items-center justify-center modern-bg">
+        <div className="modern-loader"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen relative">
-      {/* Cyberpunk Background */}
-      <div className="cyber-bg">
-        <div className="hex-grid"></div>
-        <div className="circuit-pattern"></div>
-      </div>
+    <div className="min-h-screen modern-bg">
 
       {/* Header */}
-      <header className="glass border-b border-cyan-500/30 relative z-10">
+      <header className="glass border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <GraduationCap className="h-8 w-8 text-cyan-400 animate-glow" />
-                <div className="absolute inset-0 h-8 w-8 text-cyan-400 animate-pulse opacity-50">
-                  <GraduationCap className="h-8 w-8" />
-                </div>
-              </div>
-              <h1 className="text-2xl font-bold cyber-title glitch" data-text="WEB3 RESULT PORTAL">
-                WEB3 RESULT PORTAL
+              <GraduationCap className="h-8 w-8 text-blue-600" />
+              <h1 className="text-2xl font-bold modern-title">
+                Education Result Portal
               </h1>
             </div>
             <div className="flex items-center gap-4">
               <BlockchainIndicator />
               <WalletStatus />
-              <Button variant="outline" className="neon-border hover:neon-glow transition-all duration-300" asChild>
+              <Button variant="outline" className="modern-button-outline" asChild>
                 <a href="/admin">ADMIN ACCESS</a>
               </Button>
             </div>
@@ -184,37 +170,36 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!searchResult ? (
           <div className="space-y-12">
             {/* Hero Section */}
-            <div className="text-center space-y-6 animate-slide-in">
-              <h2 className="text-5xl font-bold cyber-title glitch" data-text="NEURAL RESULT MATRIX">
-                NEURAL RESULT MATRIX
+            <div className="text-center space-y-6 animate-fade-in">
+              <h2 className="text-5xl font-bold modern-title">
+                Student Result Portal
               </h2>
-              <p className="text-xl cyber-text max-w-3xl mx-auto leading-relaxed">
-                Access your examination results through our{' '}
-                <span className="text-cyan-400 neon-text">quantum-encrypted</span> blockchain network.
-                All results are cryptographically verified and immutably stored.
+              <p className="text-xl modern-text max-w-3xl mx-auto leading-relaxed">
+                Access your examination results through our secure and verified system.
+                All results are digitally verified and securely stored.
               </p>
               <div className="flex justify-center gap-4 flex-wrap">
-                <Badge className="blockchain-indicator">
-                  <Cpu className="w-4 h-4" />
-                  QUANTUM VERIFIED
+                <Badge className="modern-badge modern-badge-success">
+                  <CheckCircle className="w-4 h-4" />
+                  Verified Results
                 </Badge>
-                <Badge className="blockchain-indicator">
+                <Badge className="modern-badge modern-badge-success">
                   <Shield className="w-4 h-4" />
-                  BLOCKCHAIN SECURED
+                  Secure Access
                 </Badge>
-                <Badge className="blockchain-indicator">
+                <Badge className="modern-badge modern-badge-success">
                   <Zap className="w-4 h-4" />
-                  REAL-TIME SYNC
+                  Real-time Data
                 </Badge>
               </div>
             </div>
 
             {/* Search Form */}
-            <div className="animate-slide-in" style={{ animationDelay: '0.2s' }}>
+            <div className="animate-fade-in">
               <SearchForm
                 boards={boards}
                 sessions={sessions}
@@ -225,11 +210,11 @@ export default function Home() {
 
             {/* Error Message */}
             {error && (
-              <Card className="cyber-card border-red-500/50 bg-red-500/10 animate-slide-in">
+              <Card className="modern-card border-red-200 bg-red-50 animate-fade-in">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-3 text-red-400">
-                    <Search className="h-5 w-5 animate-pulse" />
-                    <p className="font-medium cyber-text">{error}</p>
+                  <div className="flex items-center gap-3 text-red-600">
+                    <Search className="h-5 w-5" />
+                    <p className="font-medium">{error}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -237,84 +222,69 @@ export default function Home() {
 
             {/* Features Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-              <Card className="cyber-card geometric-pattern animate-slide-in" style={{ animationDelay: '0.4s' }}>
+              <Card className="modern-card animate-fade-in">
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 relative">
-                    <Shield className="h-12 w-12 text-cyan-400 animate-float" />
-                    <div className="absolute inset-0 h-12 w-12 text-cyan-400/30 animate-pulse">
-                      <Shield className="h-12 w-12" />
-                    </div>
-                  </div>
-                  <CardTitle className="cyber-subtitle">QUANTUM VERIFICATION</CardTitle>
+                  <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                  <CardTitle className="modern-subtitle">Secure Verification</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="cyber-text text-center">
-                    All results undergo quantum cryptographic verification ensuring 
-                    <span className="text-cyan-400"> 100% authenticity</span> and tamper-proof storage
+                  <CardDescription className="modern-text text-center">
+                    All results undergo digital verification ensuring 
+                    <span className="text-blue-600 font-semibold"> 100% authenticity</span> and secure storage
                   </CardDescription>
                 </CardContent>
               </Card>
               
-              <Card className="cyber-card geometric-pattern animate-slide-in" style={{ animationDelay: '0.6s' }}>
+              <Card className="modern-card animate-fade-in">
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 relative">
-                    <Globe className="h-12 w-12 text-purple-400 animate-float" />
-                    <div className="absolute inset-0 h-12 w-12 text-purple-400/30 animate-pulse">
-                      <Globe className="h-12 w-12" />
-                    </div>
-                  </div>
-                  <CardTitle className="cyber-subtitle">NEURAL NETWORK</CardTitle>
+                  <Globe className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                  <CardTitle className="modern-subtitle">Connected Network</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="cyber-text text-center">
+                  <CardDescription className="modern-text text-center">
                     Connected to all Bangladesh Education Board networks through our
-                    <span className="text-purple-400"> distributed ledger</span> infrastructure
+                    <span className="text-green-600 font-semibold"> secure infrastructure</span>
                   </CardDescription>
                 </CardContent>
               </Card>
               
-              <Card className="cyber-card geometric-pattern animate-slide-in" style={{ animationDelay: '0.8s' }}>
+              <Card className="modern-card animate-fade-in">
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 relative">
-                    <Zap className="h-12 w-12 text-yellow-400 animate-float" />
-                    <div className="absolute inset-0 h-12 w-12 text-yellow-400/30 animate-pulse">
-                      <Zap className="h-12 w-12" />
-                    </div>
-                  </div>
-                  <CardTitle className="cyber-subtitle">INSTANT ACCESS</CardTitle>
+                  <Zap className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
+                  <CardTitle className="modern-subtitle">Instant Access</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="cyber-text text-center">
+                  <CardDescription className="modern-text text-center">
                     Lightning-fast result retrieval with
-                    <span className="text-yellow-400"> real-time synchronization</span> across the blockchain matrix
+                    <span className="text-yellow-600 font-semibold"> real-time synchronization</span> across all systems
                   </CardDescription>
                 </CardContent>
               </Card>
             </div>
 
             {/* Data Visualization */}
-            <div className="mt-16 animate-slide-in" style={{ animationDelay: '1s' }}>
-              <Card className="cyber-card">
+            <div className="mt-16 animate-fade-in">
+              <Card className="modern-card">
                 <CardHeader>
-                  <CardTitle className="cyber-subtitle text-center">NETWORK STATUS</CardTitle>
+                  <CardTitle className="modern-subtitle text-center">System Status</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div className="data-viz p-4 text-center">
-                      <div className="text-2xl font-bold text-cyan-400 mb-2">{boards.length}</div>
-                      <div className="cyber-text text-sm">EDUCATION NODES</div>
+                    <div className="data-card">
+                      <div className="data-value text-blue-600">{boards.length}</div>
+                      <div className="data-label">Education Boards</div>
                     </div>
-                    <div className="data-viz p-4 text-center">
-                      <div className="text-2xl font-bold text-purple-400 mb-2">{sessions.length}</div>
-                      <div className="cyber-text text-sm">ACTIVE SESSIONS</div>
+                    <div className="data-card">
+                      <div className="data-value text-green-600">{sessions.length}</div>
+                      <div className="data-label">Active Sessions</div>
                     </div>
-                    <div className="data-viz p-4 text-center">
-                      <div className="text-2xl font-bold text-yellow-400 mb-2">99.9%</div>
-                      <div className="cyber-text text-sm">UPTIME</div>
+                    <div className="data-card">
+                      <div className="data-value text-yellow-600">99.9%</div>
+                      <div className="data-label">System Uptime</div>
                     </div>
-                    <div className="data-viz p-4 text-center">
-                      <div className="text-2xl font-bold text-green-400 mb-2">SECURE</div>
-                      <div className="cyber-text text-sm">NETWORK STATUS</div>
+                    <div className="data-card">
+                      <div className="data-value text-green-600">Secure</div>
+                      <div className="data-label">Security Status</div>
                     </div>
                   </div>
                 </CardContent>
@@ -327,14 +297,14 @@ export default function Home() {
             <Button
               variant="outline"
               onClick={resetSearch}
-              className="neon-border hover:neon-glow transition-all duration-300 gap-2"
+              className="modern-button-outline gap-2"
             >
               <Search className="h-4 w-4" />
-              INITIATE NEW SEARCH
+              New Search
             </Button>
 
             {/* Result Card */}
-            <div className="animate-slide-in">
+            <div className="animate-fade-in">
               <ResultCard
                 student={searchResult.student}
                 result={searchResult.result}
@@ -346,21 +316,21 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="glass border-t border-cyan-500/30 py-8 mt-16 relative z-10">
+      <footer className="glass border-t border-gray-200 py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4">
-            <h3 className="text-lg font-bold cyber-title">WEB3 RESULT PORTAL</h3>
-            <p className="cyber-text">
-              Powered by quantum cryptography and distributed ledger technology
+            <h3 className="text-lg font-bold modern-title">Education Result Portal</h3>
+            <p className="modern-text">
+              Powered by secure digital verification and modern technology
             </p>
             <div className="flex justify-center gap-4">
-              <Badge className="blockchain-indicator">
+              <Badge className="modern-badge modern-badge-success">
                 <Shield className="w-3 h-3" />
-                QUANTUM SECURED
+                Digitally Secured
               </Badge>
-              <Badge className="blockchain-indicator">
+              <Badge className="modern-badge modern-badge-success">
                 <Globe className="w-3 h-3" />
-                GLOBALLY DISTRIBUTED
+                Nationwide Access
               </Badge>
             </div>
           </div>

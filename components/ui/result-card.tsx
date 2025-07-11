@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Printer as Print, Shield, CheckCircle, XCircle, AlertCircle, Download, Eye, Cpu, Zap } from 'lucide-react';
+import { Printer as Print, Shield, CheckCircle, XCircle, AlertCircle, Download, Eye, User, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -114,10 +114,10 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
       {/* Header with Actions */}
       <div className="flex justify-between items-center print:hidden">
         <div>
-          <h1 className="text-3xl font-bold cyber-title glitch" data-text="NEURAL RESULT MATRIX">
-            NEURAL RESULT MATRIX
+          <h1 className="text-3xl font-bold modern-title">
+            Examination Result
           </h1>
-          <p className="cyber-text mt-2">Quantum-verified examination results</p>
+          <p className="modern-text mt-2">Official examination result certificate</p>
         </div>
         <div className="flex gap-3">
           {result.blockchain_tx_hash && (
@@ -125,129 +125,126 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
               onClick={handleVerifyBlockchain}
               disabled={isVerifying}
               variant="outline"
-              className="neon-border hover:neon-glow transition-all duration-300 gap-2"
+              className="modern-button-outline gap-2"
             >
               <Shield className="h-4 w-4" />
-              {isVerifying ? 'VERIFYING...' : 'BLOCKCHAIN VERIFY'}
+              {isVerifying ? 'Verifying...' : 'Verify Certificate'}
             </Button>
           )}
           <Button 
             onClick={handlePrint} 
-            className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-black font-bold gap-2"
+            className="modern-button gap-2"
           >
             <Print className="h-4 w-4" />
-            DOWNLOAD RESULT
+            Download Result
           </Button>
         </div>
       </div>
 
       {/* Main Result Card */}
-      <Card className="cyber-card metallic-gradient print:shadow-none print:border-0">
-        <CardHeader className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-cyan-500/20" />
-          <div className="relative z-10 text-center">
-            <CardTitle className="text-4xl font-bold cyber-title mb-2">
+      <Card className="modern-card print:shadow-none print:border-0">
+        <CardHeader className="text-center bg-gradient-to-r from-blue-50 to-indigo-50">
+            <CardTitle className="text-4xl font-bold modern-title mb-2">
               {student.education_boards.name}
             </CardTitle>
-            <p className="text-xl cyber-subtitle text-cyan-400">
+            <p className="text-xl modern-subtitle text-blue-600">
               {student.exam_sessions.name} - {student.exam_sessions.year}
             </p>
             <div className="flex justify-center gap-4 mt-4">
-              <Badge className="blockchain-indicator">
-                <Cpu className="w-3 h-3" />
-                QUANTUM VERIFIED
+              <Badge className="modern-badge modern-badge-success">
+                <CheckCircle className="w-3 h-3" />
+                Verified Result
               </Badge>
-              <Badge className="blockchain-indicator">
+              <Badge className="modern-badge modern-badge-success">
                 <Shield className="w-3 h-3" />
-                BLOCKCHAIN SECURED
+                Digitally Secured
               </Badge>
             </div>
-          </div>
         </CardHeader>
         
         <CardContent className="p-8">
           {/* Student Information Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Student Details */}
-            <Card className="cyber-card">
+            <Card className="modern-card">
               <CardHeader>
-                <CardTitle className="cyber-subtitle text-cyan-400 flex items-center gap-2">
-                  <Eye className="w-5 h-5" />
-                  STUDENT PROFILE
+                <CardTitle className="modern-subtitle text-blue-600 flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  Student Information
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="cyber-text text-sm opacity-70">NAME</div>
-                    <div className="font-bold text-cyan-400 font-mono">{student.name}</div>
+                    <div className="modern-text text-sm font-medium">Name</div>
+                    <div className="font-semibold text-gray-900">{student.name}</div>
                   </div>
                   <div>
-                    <div className="cyber-text text-sm opacity-70">ROLL</div>
-                    <div className="font-bold text-purple-400 font-mono">{student.roll_number}</div>
+                    <div className="modern-text text-sm font-medium">Roll Number</div>
+                    <div className="font-semibold text-gray-900">{student.roll_number}</div>
                   </div>
                   <div>
-                    <div className="cyber-text text-sm opacity-70">REGISTRATION</div>
-                    <div className="font-bold text-cyan-400 font-mono">{student.registration_number}</div>
+                    <div className="modern-text text-sm font-medium">Registration</div>
+                    <div className="font-semibold text-gray-900">{student.registration_number}</div>
                   </div>
                   <div>
-                    <div className="cyber-text text-sm opacity-70">EXAM TYPE</div>
-                    <div className="font-bold text-purple-400">{student.exam_type}</div>
+                    <div className="modern-text text-sm font-medium">Exam Type</div>
+                    <div className="font-semibold text-gray-900">{student.exam_type}</div>
                   </div>
                 </div>
-                <Separator className="bg-cyan-500/30" />
+                <Separator />
                 <div className="space-y-2">
                   <div>
-                    <div className="cyber-text text-sm opacity-70">FATHER'S NAME</div>
-                    <div className="cyber-text">{student.father_name}</div>
+                    <div className="modern-text text-sm font-medium">Father's Name</div>
+                    <div className="text-gray-900">{student.father_name}</div>
                   </div>
                   <div>
-                    <div className="cyber-text text-sm opacity-70">MOTHER'S NAME</div>
-                    <div className="cyber-text">{student.mother_name}</div>
+                    <div className="modern-text text-sm font-medium">Mother's Name</div>
+                    <div className="text-gray-900">{student.mother_name}</div>
                   </div>
                   <div>
-                    <div className="cyber-text text-sm opacity-70">INSTITUTE</div>
-                    <div className="cyber-text">{student.institute_name}</div>
+                    <div className="modern-text text-sm font-medium">Institute</div>
+                    <div className="text-gray-900">{student.institute_name}</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
             
             {/* Result Summary */}
-            <Card className="cyber-card">
+            <Card className="modern-card">
               <CardHeader>
-                <CardTitle className="cyber-subtitle text-purple-400 flex items-center gap-2">
-                  <Zap className="w-5 h-5" />
-                  RESULT ANALYSIS
+                <CardTitle className="modern-subtitle text-green-600 flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Result Summary
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Status */}
                 <div className="text-center">
-                  <div className="cyber-text text-sm opacity-70 mb-2">RESULT STATUS</div>
+                  <div className="modern-text text-sm font-medium mb-2">Result Status</div>
                   <div className={`flex items-center justify-center gap-2 text-2xl font-bold ${getResultStatusClass(result.result_status)}`}>
                     {getResultStatusIcon(result.result_status)}
                     {result.result_status}
                   </div>
                 </div>
                 
-                <Separator className="bg-purple-500/30" />
+                <Separator />
                 
                 {/* GPA Display */}
                 <div className="text-center">
-                  <div className="cyber-text text-sm opacity-70 mb-2">GRADE POINT AVERAGE</div>
-                  <div className="text-6xl font-bold cyber-title bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  <div className="modern-text text-sm font-medium mb-2">Grade Point Average</div>
+                  <div className="text-6xl font-bold text-blue-600">
                     {result.gpa.toFixed(2)}
                   </div>
-                  <div className="cyber-text text-sm mt-2">OUT OF 5.00</div>
+                  <div className="modern-text text-sm mt-2">out of 5.00</div>
                 </div>
                 
-                <Separator className="bg-purple-500/30" />
+                <Separator />
                 
                 {/* Total Marks */}
                 <div className="text-center">
-                  <div className="cyber-text text-sm opacity-70 mb-2">TOTAL MARKS</div>
-                  <div className="text-3xl font-bold text-yellow-400 font-mono">
+                  <div className="modern-text text-sm font-medium mb-2">Total Marks</div>
+                  <div className="text-3xl font-bold text-green-600">
                     {result.total_marks}
                   </div>
                 </div>
@@ -256,34 +253,33 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
           </div>
 
           {/* Subjects Table */}
-          <Card className="cyber-card">
+          <Card className="modern-card">
             <CardHeader>
-              <CardTitle className="cyber-subtitle text-cyan-400 text-xl">
-                SUBJECT PERFORMANCE MATRIX
+              <CardTitle className="modern-subtitle text-blue-600 text-xl">
+                Subject-wise Performance
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
-                <Table>
+                <Table className="modern-table">
                   <TableHeader>
-                    <TableRow className="border-cyan-500/30">
-                      <TableHead className="cyber-subtitle text-cyan-400">CODE</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400">SUBJECT</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400 text-center">GRADE</TableHead>
-                      <TableHead className="cyber-subtitle text-cyan-400 text-center">MARKS</TableHead>
+                    <TableRow>
+                      <TableHead className="modern-subtitle">Code</TableHead>
+                      <TableHead className="modern-subtitle">Subject</TableHead>
+                      <TableHead className="modern-subtitle text-center">Grade</TableHead>
+                      <TableHead className="modern-subtitle text-center">Marks</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {subjects.map((subject, index) => (
                       <TableRow 
                         key={subject.id} 
-                        className="border-cyan-500/20 hover:bg-cyan-500/5 transition-colors"
-                        style={{ animationDelay: `${index * 0.1}s` }}
+                        className="hover:bg-gray-50 transition-colors"
                       >
-                        <TableCell className="font-mono text-purple-400 font-bold">
+                        <TableCell className="font-mono text-blue-600 font-semibold">
                           {subject.subjects?.code}
                         </TableCell>
-                        <TableCell className="cyber-text font-medium">
+                        <TableCell className="text-gray-900 font-medium">
                           {subject.subjects?.name}
                         </TableCell>
                         <TableCell className="text-center">
@@ -291,7 +287,7 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
                             {subject.grade}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-center font-mono font-bold text-cyan-400">
+                        <TableCell className="text-center font-mono font-semibold text-gray-900">
                           {subject.marks}
                         </TableCell>
                       </TableRow>
@@ -304,35 +300,35 @@ export function ResultCard({ student, result, subjects }: ResultCardProps) {
 
           {/* Blockchain Verification */}
           {result.result_hash && (
-            <Alert className="cyber-card border-cyan-500/50 bg-cyan-500/10">
-              <Shield className="h-5 w-5 text-cyan-400" />
+            <Alert className="modern-card border-blue-200 bg-blue-50">
+              <Shield className="h-5 w-5 text-blue-600" />
               <AlertDescription>
                 <div className="space-y-3">
-                  <div className="font-bold text-cyan-400 cyber-subtitle">
-                    QUANTUM CRYPTOGRAPHIC VERIFICATION
+                  <div className="font-bold text-blue-600 modern-subtitle">
+                    Digital Verification
                   </div>
-                  <div className="space-y-2 cyber-text text-sm">
+                  <div className="space-y-2 modern-text text-sm">
                     <div>
-                      <span className="text-cyan-400 font-mono">RESULT HASH:</span>
-                      <div className="font-mono text-xs break-all mt-1 p-2 bg-black/50 rounded border border-cyan-500/30">
+                      <span className="text-blue-600 font-mono">Result Hash:</span>
+                      <div className="font-mono text-xs break-all mt-1 p-2 bg-gray-100 rounded border">
                         {result.result_hash}
                       </div>
                     </div>
                     {result.blockchain_tx_hash && (
                       <div>
-                        <span className="text-purple-400 font-mono">BLOCKCHAIN TX:</span>
+                        <span className="text-green-600 font-mono">Verification ID:</span>
                         <button 
                           onClick={handleVerifyBlockchain}
-                          className="font-mono text-xs break-all mt-1 p-2 bg-black/50 rounded border border-purple-500/30 hover:border-purple-400 transition-colors cursor-pointer w-full text-left"
+                          className="font-mono text-xs break-all mt-1 p-2 bg-gray-100 rounded border hover:border-gray-300 transition-colors cursor-pointer w-full text-left"
                         >
                           {result.blockchain_tx_hash}
                         </button>
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-xs cyber-text">
-                    <Cpu className="w-4 h-4 text-cyan-400" />
-                    <span>This result is cryptographically verified and immutably stored on the blockchain</span>
+                  <div className="flex items-center gap-2 text-xs modern-text">
+                    <Shield className="w-4 h-4 text-blue-600" />
+                    <span>This result is digitally verified and securely stored</span>
                   </div>
                 </div>
               </AlertDescription>

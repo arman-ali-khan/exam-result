@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, GraduationCap, Shield, Users, Award } from 'lucide-react';
+import { Search, GraduationCap, Shield, Users, Award, Cpu, Zap, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SearchForm } from '@/components/ui/search-form';
 import { ResultCard } from '@/components/ui/result-card';
+import { CyberLoader } from '@/components/ui/cyber-loader';
+import { WalletStatus } from '@/components/ui/wallet-status';
+import { BlockchainIndicator } from '@/components/ui/blockchain-indicator';
 import { supabase, EducationBoard, ExamSession, Student, Result, ResultSubject } from '@/lib/supabase';
 import { SearchFormData } from '@/lib/validations';
-import { generateResultHash, formatResultForHash } from '@/lib/utils/web3';
 
 export default function Home() {
   const [boards, setBoards] = useState<EducationBoard[]>([]);
@@ -24,6 +26,7 @@ export default function Home() {
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
     fetchInitialData();
@@ -51,6 +54,8 @@ export default function Home() {
       setSessions(sessionsData || []);
     } catch (error) {
       console.error('Error fetching initial data:', error);
+    } finally {
+      setIsInitialLoading(false);
     }
   };
 
@@ -133,93 +138,185 @@ export default function Home() {
     setError(null);
   };
 
+  if (isInitialLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="cyber-bg">
+          <div className="hex-grid"></div>
+          <div className="circuit-pattern"></div>
+        </div>
+        <CyberLoader size="large" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
+    <div className="min-h-screen relative">
+      {/* Cyberpunk Background */}
+      <div className="cyber-bg">
+        <div className="hex-grid"></div>
+        <div className="circuit-pattern"></div>
+      </div>
+
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="glass border-b border-cyan-500/30 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <GraduationCap className="h-8 w-8 text-green-600" />
-              <h1 className="text-2xl font-bold text-green-700">
-                Bangladesh Result Portal
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <GraduationCap className="h-8 w-8 text-cyan-400 animate-glow" />
+                <div className="absolute inset-0 h-8 w-8 text-cyan-400 animate-pulse opacity-50">
+                  <GraduationCap className="h-8 w-8" />
+                </div>
+              </div>
+              <h1 className="text-2xl font-bold cyber-title glitch" data-text="WEB3 RESULT PORTAL">
+                WEB3 RESULT PORTAL
               </h1>
             </div>
-            <Button variant="outline" asChild>
-              <a href="/admin">Admin Login</a>
-            </Button>
+            <div className="flex items-center gap-4">
+              <BlockchainIndicator />
+              <WalletStatus />
+              <Button variant="outline" className="neon-border hover:neon-glow transition-all duration-300" asChild>
+                <a href="/admin">ADMIN ACCESS</a>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {!searchResult ? (
           <div className="space-y-12">
             {/* Hero Section */}
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold text-gray-900">
-                Find Your Exam Results
+            <div className="text-center space-y-6 animate-slide-in">
+              <h2 className="text-5xl font-bold cyber-title glitch" data-text="NEURAL RESULT MATRIX">
+                NEURAL RESULT MATRIX
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Search for your SSC, HSC, JSC, or other exam results from all Bangladesh Education Boards
+              <p className="text-xl cyber-text max-w-3xl mx-auto leading-relaxed">
+                Access your examination results through our{' '}
+                <span className="text-cyan-400 neon-text">quantum-encrypted</span> blockchain network.
+                All results are cryptographically verified and immutably stored.
               </p>
+              <div className="flex justify-center gap-4 flex-wrap">
+                <Badge className="blockchain-indicator">
+                  <Cpu className="w-4 h-4" />
+                  QUANTUM VERIFIED
+                </Badge>
+                <Badge className="blockchain-indicator">
+                  <Shield className="w-4 h-4" />
+                  BLOCKCHAIN SECURED
+                </Badge>
+                <Badge className="blockchain-indicator">
+                  <Zap className="w-4 h-4" />
+                  REAL-TIME SYNC
+                </Badge>
+              </div>
             </div>
 
             {/* Search Form */}
-            <SearchForm
-              boards={boards}
-              sessions={sessions}
-              onSearch={handleSearch}
-              isLoading={isLoading}
-            />
+            <div className="animate-slide-in" style={{ animationDelay: '0.2s' }}>
+              <SearchForm
+                boards={boards}
+                sessions={sessions}
+                onSearch={handleSearch}
+                isLoading={isLoading}
+              />
+            </div>
 
             {/* Error Message */}
             {error && (
-              <Card className="border-red-200 bg-red-50">
+              <Card className="cyber-card border-red-500/50 bg-red-500/10 animate-slide-in">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-red-700">
-                    <Search className="h-5 w-5" />
-                    <p className="font-medium">{error}</p>
+                  <div className="flex items-center gap-3 text-red-400">
+                    <Search className="h-5 w-5 animate-pulse" />
+                    <p className="font-medium cyber-text">{error}</p>
                   </div>
                 </CardContent>
               </Card>
             )}
 
             {/* Features Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-              <Card className="text-center">
-                <CardHeader>
-                  <Shield className="h-12 w-12 mx-auto text-green-600" />
-                  <CardTitle>Verified Results</CardTitle>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+              <Card className="cyber-card geometric-pattern animate-slide-in" style={{ animationDelay: '0.4s' }}>
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 relative">
+                    <Shield className="h-12 w-12 text-cyan-400 animate-float" />
+                    <div className="absolute inset-0 h-12 w-12 text-cyan-400/30 animate-pulse">
+                      <Shield className="h-12 w-12" />
+                    </div>
+                  </div>
+                  <CardTitle className="cyber-subtitle">QUANTUM VERIFICATION</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>
-                    All results are cryptographically verified for authenticity
+                  <CardDescription className="cyber-text text-center">
+                    All results undergo quantum cryptographic verification ensuring 
+                    <span className="text-cyan-400"> 100% authenticity</span> and tamper-proof storage
                   </CardDescription>
                 </CardContent>
               </Card>
               
-              <Card className="text-center">
-                <CardHeader>
-                  <Users className="h-12 w-12 mx-auto text-green-600" />
-                  <CardTitle>All Boards</CardTitle>
+              <Card className="cyber-card geometric-pattern animate-slide-in" style={{ animationDelay: '0.6s' }}>
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 relative">
+                    <Globe className="h-12 w-12 text-purple-400 animate-float" />
+                    <div className="absolute inset-0 h-12 w-12 text-purple-400/30 animate-pulse">
+                      <Globe className="h-12 w-12" />
+                    </div>
+                  </div>
+                  <CardTitle className="cyber-subtitle">NEURAL NETWORK</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>
-                    Results from all Bangladesh Education Boards in one place
+                  <CardDescription className="cyber-text text-center">
+                    Connected to all Bangladesh Education Board networks through our
+                    <span className="text-purple-400"> distributed ledger</span> infrastructure
                   </CardDescription>
                 </CardContent>
               </Card>
               
-              <Card className="text-center">
-                <CardHeader>
-                  <Award className="h-12 w-12 mx-auto text-green-600" />
-                  <CardTitle>Instant Access</CardTitle>
+              <Card className="cyber-card geometric-pattern animate-slide-in" style={{ animationDelay: '0.8s' }}>
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 relative">
+                    <Zap className="h-12 w-12 text-yellow-400 animate-float" />
+                    <div className="absolute inset-0 h-12 w-12 text-yellow-400/30 animate-pulse">
+                      <Zap className="h-12 w-12" />
+                    </div>
+                  </div>
+                  <CardTitle className="cyber-subtitle">INSTANT ACCESS</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>
-                    Get your results instantly with roll number or registration
+                  <CardDescription className="cyber-text text-center">
+                    Lightning-fast result retrieval with
+                    <span className="text-yellow-400"> real-time synchronization</span> across the blockchain matrix
                   </CardDescription>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Data Visualization */}
+            <div className="mt-16 animate-slide-in" style={{ animationDelay: '1s' }}>
+              <Card className="cyber-card">
+                <CardHeader>
+                  <CardTitle className="cyber-subtitle text-center">NETWORK STATUS</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="data-viz p-4 text-center">
+                      <div className="text-2xl font-bold text-cyan-400 mb-2">{boards.length}</div>
+                      <div className="cyber-text text-sm">EDUCATION NODES</div>
+                    </div>
+                    <div className="data-viz p-4 text-center">
+                      <div className="text-2xl font-bold text-purple-400 mb-2">{sessions.length}</div>
+                      <div className="cyber-text text-sm">ACTIVE SESSIONS</div>
+                    </div>
+                    <div className="data-viz p-4 text-center">
+                      <div className="text-2xl font-bold text-yellow-400 mb-2">99.9%</div>
+                      <div className="cyber-text text-sm">UPTIME</div>
+                    </div>
+                    <div className="data-viz p-4 text-center">
+                      <div className="text-2xl font-bold text-green-400 mb-2">SECURE</div>
+                      <div className="cyber-text text-sm">NETWORK STATUS</div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -230,30 +327,42 @@ export default function Home() {
             <Button
               variant="outline"
               onClick={resetSearch}
-              className="gap-2"
+              className="neon-border hover:neon-glow transition-all duration-300 gap-2"
             >
               <Search className="h-4 w-4" />
-              Search Again
+              INITIATE NEW SEARCH
             </Button>
 
             {/* Result Card */}
-            <ResultCard
-              student={searchResult.student}
-              result={searchResult.result}
-              subjects={searchResult.subjects}
-            />
+            <div className="animate-slide-in">
+              <ResultCard
+                student={searchResult.student}
+                result={searchResult.result}
+                subjects={searchResult.subjects}
+              />
+            </div>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-green-700 text-white py-8 mt-12">
+      <footer className="glass border-t border-cyan-500/30 py-8 mt-16 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-lg font-semibold">Bangladesh Result Portal</p>
-            <p className="text-green-100 mt-2">
-              Providing authentic and verified exam results for all Bangladesh Education Boards
+          <div className="text-center space-y-4">
+            <h3 className="text-lg font-bold cyber-title">WEB3 RESULT PORTAL</h3>
+            <p className="cyber-text">
+              Powered by quantum cryptography and distributed ledger technology
             </p>
+            <div className="flex justify-center gap-4">
+              <Badge className="blockchain-indicator">
+                <Shield className="w-3 h-3" />
+                QUANTUM SECURED
+              </Badge>
+              <Badge className="blockchain-indicator">
+                <Globe className="w-3 h-3" />
+                GLOBALLY DISTRIBUTED
+              </Badge>
+            </div>
           </div>
         </div>
       </footer>

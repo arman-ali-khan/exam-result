@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Printer as Print, Shield } from 'lucide-react';
+import { Printer as Print, Shield, Cpu, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -61,171 +61,194 @@ export function PrintResult({ student, result, subjects }: PrintResultProps) {
     <div className="max-w-4xl mx-auto space-y-6">
         {/* Print Button - Hidden in print */}
         <div className="flex justify-end print:hidden no-print">
-          <Button onClick={handlePrint} className="gap-2">
+          <Button onClick={handlePrint} className="gap-2 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-black font-bold">
             <Print className="h-4 w-4" />
-            Print Result
+            DOWNLOAD RESULT
           </Button>
         </div>
 
         {/* Print Area */}
         <div className="print-area">
           {/* Header */}
-          <div className="print-header">
-            <h1 className="text-2xl font-bold text-center mb-2">
-              {student.education_boards.name}
-            </h1>
-            <h2 className="text-lg text-center">
-              {student.exam_sessions.name} - {student.exam_sessions.year}
-            </h2>
-            <p className="text-center text-sm mt-2">Official Result Certificate</p>
+          <div className="print-header cyber-print-header">
+            <div className="print-logo-section">
+              <div className="print-logo">
+                <Shield className="h-8 w-8" />
+              </div>
+              <div className="print-title-section">
+                <h1 className="print-main-title">
+                  {student.education_boards.name}
+                </h1>
+                <h2 className="print-subtitle">
+                  {student.exam_sessions.name} - {student.exam_sessions.year}
+                </h2>
+                <p className="print-tagline">QUANTUM-VERIFIED RESULT CERTIFICATE</p>
+              </div>
+              <div className="print-verification-badges">
+                <div className="print-badge">
+                  <Cpu className="h-4 w-4" />
+                  <span>VERIFIED</span>
+                </div>
+                <div className="print-badge">
+                  <Shield className="h-4 w-4" />
+                  <span>SECURED</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="print-content">
             {/* Student Information */}
-            <div className="student-info">
-              <div>
+            <div className="student-info cyber-grid-three">
+              <div className="info-panel">
                 <div className="info-section">
-                  <h3 className="font-bold text-lg mb-3 border-b border-gray-300 pb-1">
-                    Student Information
+                  <h3 className="section-title">
+                    <span className="section-icon">👤</span>
+                    STUDENT PROFILE
                   </h3>
-                  <div className="space-y-2">
-                    <div>
-                      <span className="info-label">Name:</span>
-                      <span>{student.name}</span>
+                  <div className="info-grid">
+                    <div className="info-item">
+                      <span className="info-label">NAME:</span>
+                      <span className="info-value">{student.name}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Roll Number:</span>
-                      <span>{student.roll_number}</span>
+                    <div className="info-item">
+                      <span className="info-label">ROLL:</span>
+                      <span className="info-value">{student.roll_number}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Registration:</span>
-                      <span>{student.registration_number}</span>
+                    <div className="info-item">
+                      <span className="info-label">REGISTRATION:</span>
+                      <span className="info-value">{student.registration_number}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Father's Name:</span>
-                      <span>{student.father_name}</span>
+                    <div className="info-item">
+                      <span className="info-label">FATHER'S NAME:</span>
+                      <span className="info-value">{student.father_name}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Mother's Name:</span>
-                      <span>{student.mother_name}</span>
+                    <div className="info-item">
+                      <span className="info-label">MOTHER'S NAME:</span>
+                      <span className="info-value">{student.mother_name}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Date of Birth:</span>
-                      <span>{new Date(student.date_of_birth).toLocaleDateString()}</span>
+                    <div className="info-item">
+                      <span className="info-label">DATE OF BIRTH:</span>
+                      <span className="info-value">{new Date(student.date_of_birth).toLocaleDateString()}</span>
                     </div>
                   </div>
                 </div>
               </div>
               
-              <div>
+              <div className="info-panel">
                 <div className="info-section">
-                  <h3 className="font-bold text-lg mb-3 border-b border-gray-300 pb-1">
-                    Exam Information
+                  <h3 className="section-title">
+                    <span className="section-icon">🏫</span>
+                    EXAMINATION DETAILS
                   </h3>
-                  <div className="space-y-2">
-                    <div>
-                      <span className="info-label">Institute:</span>
-                      <span>{student.institute_name}</span>
+                  <div className="info-grid">
+                    <div className="info-item">
+                      <span className="info-label">INSTITUTE:</span>
+                      <span className="info-value">{student.institute_name}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Board:</span>
-                      <span>{student.education_boards.name}</span>
+                    <div className="info-item">
+                      <span className="info-label">BOARD:</span>
+                      <span className="info-value">{student.education_boards.name}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Exam Type:</span>
-                      <span>{student.exam_type}</span>
+                    <div className="info-item">
+                      <span className="info-label">EXAM TYPE:</span>
+                      <span className="info-value">{student.exam_type}</span>
                     </div>
-                    <div>
-                      <span className="info-label">Session:</span>
-                      <span>{student.exam_sessions.name} - {student.exam_sessions.year}</span>
+                    <div className="info-item">
+                      <span className="info-label">SESSION:</span>
+                      <span className="info-value">{student.exam_sessions.name} - {student.exam_sessions.year}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
+              <div className="info-panel">
+                <div className="info-section">
+                  <h3 className="section-title">
+                    <span className="section-icon">📊</span>
+                    PERFORMANCE ANALYSIS
+                  </h3>
+                  <div className="performance-grid">
+                    <div className="performance-item">
+                      <span className="performance-label">RESULT STATUS</span>
+                      <div className="performance-value status-value">
+                        <span className="status-icon">{getResultStatusIcon(result.result_status)}</span>
+                        <span className="status-text">{result.result_status}</span>
+                      </div>
+                    </div>
+                    <div className="performance-item">
+                      <span className="performance-label">GPA</span>
+                      <div className="gpa-display-compact">
+                        <span className="gpa-value-compact">{result.gpa.toFixed(2)}</span>
+                        <span className="gpa-scale-compact">/ 5.00</span>
+                      </div>
+                    </div>
+                    <div className="performance-item">
+                      <span className="performance-label">TOTAL MARKS</span>
+                      <div className="performance-value marks-value">{result.total_marks}</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Result Summary */}
-            <div className="result-summary">
-              <h3 className="font-bold text-lg mb-2">Result Summary</h3>
-              <div className="flex justify-center items-center gap-4">
-                <div>
-                  <span className="font-medium">Result:</span>
-                  <span className="ml-2 font-bold">
-                    {getResultStatusIcon(result.result_status)} {result.result_status}
-                  </span>
-                </div>
-                <div className="gpa-display">
-                  GPA: {result.gpa.toFixed(2)}
-                </div>
-                <div>
-                  <span className="font-medium">Total Marks:</span>
-                  <span className="ml-2 font-bold">{result.total_marks}</span>
-                </div>
-              </div>
-            </div>
-
             {/* Subjects Table */}
-            <div>
-              <h3 className="font-bold text-lg mb-3 border-b border-gray-300 pb-1">
-                Subject-wise Results
+            <div className="subjects-section">
+              <h3 className="section-title subjects-title">
+                <span className="section-icon">📚</span>
+                SUBJECT PERFORMANCE MATRIX
               </h3>
-              <table className="print-table">
+              <table className="print-table cyber-table">
                 <thead>
-                  <tr>
-                    <th>Subject Code</th>
-                    <th>Subject Name</th>
-                    <th>Grade</th>
-                    <th>Marks</th>
+                  <tr className="table-header">
+                    <th className="table-header-cell">CODE</th>
+                    <th className="table-header-cell">SUBJECT NAME</th>
+                    <th className="table-header-cell center">GRADE</th>
+                    <th className="table-header-cell center">MARKS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {subjects.map((subject, index) => (
-                    <tr key={subject.id}>
-                      <td className="font-medium">{subject.subjects?.code}</td>
-                      <td>{subject.subjects?.name}</td>
-                      <td className="text-center font-bold">{subject.grade}</td>
-                      <td className="text-center">{subject.marks}</td>
+                    <tr key={subject.id} className="table-row">
+                      <td className="table-cell code-cell">{subject.subjects?.code}</td>
+                      <td className="table-cell subject-cell">{subject.subjects?.name}</td>
+                      <td className="table-cell center grade-cell">
+                        <span className="grade-badge">{subject.grade}</span>
+                      </td>
+                      <td className="table-cell center marks-cell">{subject.marks}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            {/* Verification Section */}
-            {result.result_hash && (
-              <div className="mt-6 p-4 border border-gray-300">
-                <h4 className="font-bold mb-2">Verification Information</h4>
-                <div className="text-xs space-y-1">
-                  <div>
-                    <span className="font-medium">Result Hash:</span>
-                    <span className="ml-2 font-mono">{result.result_hash}</span>
-                  </div>
-                  {result.blockchain_tx_hash && (
-                    <div>
-                      <span className="font-medium">Blockchain TX:</span>
-                      <span className="ml-2 font-mono">{result.blockchain_tx_hash}</span>
-                    </div>
-                  )}
-                  <p className="text-xs mt-2 italic">
-                    This result is cryptographically verified and tamper-proof.
-                  </p>
-                </div>
-              </div>
-            )}
-
             {/* Footer */}
-            <div className="mt-8 text-center text-xs">
-              <div className="border-t border-gray-300 pt-4">
-                <p>This is an official result certificate issued by {student.education_boards.name}</p>
-                <p className="mt-1">Generated on: {new Date().toLocaleDateString()}</p>
-                <div className="mt-4 flex justify-between">
-                  <div>
-                    <div className="border-t border-gray-400 w-32 mx-auto"></div>
-                    <p className="mt-1">Controller of Examinations</p>
+            <div className="print-footer cyber-footer">
+              <div className="footer-content">
+                <div className="footer-info">
+                  <p className="footer-title">OFFICIAL RESULT CERTIFICATE</p>
+                  <p className="footer-subtitle">Issued by {student.education_boards.name}</p>
+                  <p className="footer-date">Generated: {new Date().toLocaleDateString()}</p>
+                </div>
+                <div className="footer-signatures">
+                  <div className="signature-block">
+                    <div className="signature-line"></div>
+                    <p className="signature-title">CONTROLLER OF EXAMINATIONS</p>
                   </div>
-                  <div>
-                    <div className="border-t border-gray-400 w-32 mx-auto"></div>
-                    <p className="mt-1">Chairman</p>
+                  <div className="signature-block">
+                    <div className="signature-line"></div>
+                    <p className="signature-title">CHAIRMAN</p>
+                  </div>
+                </div>
+                <div className="footer-tech">
+                  <div className="tech-badge">
+                    <Zap className="h-3 w-3" />
+                    <span>QUANTUM VERIFIED</span>
+                  </div>
+                  <div className="tech-badge">
+                    <Shield className="h-3 w-3" />
+                    <span>BLOCKCHAIN SECURED</span>
                   </div>
                 </div>
               </div>

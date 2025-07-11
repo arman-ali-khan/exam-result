@@ -20,8 +20,12 @@ export default function Home() {
       education_boards: EducationBoard;
       exam_sessions: ExamSession;
     };
-    result: Result;
-    subjects: ResultSubject[];
+    results: Array<{
+      result: Result & {
+        exam_sessions: ExamSession;
+      };
+      subjects: ResultSubject[];
+    }>;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -89,44 +93,75 @@ export default function Home() {
       }
 
       if (!studentData) {
-        throw new Error('No student found with the provided information');
+        // Check if there are any students in the database at all
+        const { data: anyStudents, error: countError } = await supabase
+          .from('students')
+          .select('id', { count: 'exact', head: true });
+
+        if (countError) {
+          throw new Error('Database connection error. Please try again.');
+        }
+
+        if (!anyStudents || anyStudents.length === 0) {
+          throw new Error('No student records found.');
+        } else {
+          throw new Error('No student records found.');
+        }
       }
 
       // Fetch published result for this student
-      const { data: resultData, error: resultError } = await supabase
+      const { data: resultsData, error: resultsError } = await supabase
         .from('results')
-        .select('*')
+        .select(`
+          *,
+          exam_sessions(*)
+        `)
         .eq('student_id', studentData.id)
-        .eq('session_id', searchData.sessionId)
         .eq('is_published', true)
-        .single();
+        .order('created_at', { ascending: false });
 
-      if (resultError) {
-        if (resultError.code === 'PGRST116') {
-          throw new Error('Result not yet published for this student');
-        }
-        throw resultError;
+      if (resultsError) {
+        throw resultsError;
       }
 
-      // Fetch result subjects
-      const { data: subjectsData, error: subjectsError } = await supabase
+      if (!resultsData || resultsData.length === 0) {
+        throw new Error('No published results found for this student. Please check back later or contact your institution.');
+      }
+
+      // Fetch result subjects for all results
+      const resultIds = resultsData.map(r => r.id);
+      const { data: allSubjectsData, error: subjectsError } = await supabase
         .from('result_subjects')
         .select(`
           *,
           subjects(*)
         `)
-        .eq('result_id', resultData.id)
+        .in('result_id', resultIds)
         .order('subjects(code)');
 
       if (subjectsError) throw subjectsError;
 
+      // Group subjects by result_id
+      const subjectsByResult = (allSubjectsData || []).reduce((acc, subject) => {
+        if (!acc[subject.result_id]) {
+          acc[subject.result_id] = [];
+        }
+        acc[subject.result_id].push(subject);
+        return acc;
+      }, {} as Record<string, ResultSubject[]>);
+
+      // Create results array with their subjects
+      const resultsWithSubjects = resultsData.map(result => ({
+        result,
+        subjects: subjectsByResult[result.id] || []
+      }));
+
       setSearchResult({
         student: studentData,
-        result: resultData,
-        subjects: subjectsData || [],
+        results: resultsWithSubjects,
       });
     } catch (error: any) {
-      console.error('Search error:', error);
+      console.error('Search error:', error.message || error);
       setError(error.message || 'An error occurred while searching');
     } finally {
       setIsLoading(false);
@@ -212,9 +247,37 @@ export default function Home() {
             {error && (
               <Card className="modern-card border-red-200 bg-red-50 animate-fade-in">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-3 text-red-600">
-                    <Search className="h-5 w-5" />
-                    <p className="font-medium">{error}</p>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 text-red-600">
+                      <Search className="h-5 w-5" />
+                      <p className="font-medium">{error}</p>
+                    </div>
+                    {error.includes('No student records found in the database') && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h4 className="font-medium text-blue-900 mb-2">Getting Started</h4>
+                        <p className="text-sm text-blue-800 mb-3">
+                          To use this system, student data needs to be added first. You can:
+                        </p>
+                        <ul className="text-sm text-blue-800 space-y-1 mb-3">
+                          <li>• Contact your system administrator to add student records</li>
+                          <li>• Use the Admin Panel to manually add students or upload Excel data</li>
+                        </ul>
+                        <Button variant="outline" size="sm" asChild className="text-blue-700 border-blue-300 hover:bg-blue-100">
+                          <a href="/admin">Go to Admin Panel</a>
+                        </Button>
+                      </div>
+                    )}
+                    {error.includes('Please verify your') && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <h4 className="font-medium text-yellow-900 mb-2">Search Tips</h4>
+                        <ul className="text-sm text-yellow-800 space-y-1">
+                          <li>• Double-check your roll number or registration number</li>
+                          <li>• Ensure you've selected the correct education board</li>
+                          <li>• Verify the exam session matches your examination year</li>
+                          <li>• Contact your institution if you're sure the information is correct</li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -305,11 +368,24 @@ export default function Home() {
 
             {/* Result Card */}
             <div className="animate-fade-in">
-              <ResultCard
-                student={searchResult.student}
-                result={searchResult.result}
-                subjects={searchResult.subjects}
-              />
+              <div className="space-y-8">
+                {searchResult.results.map((resultData, index) => (
+                  <div key={resultData.result.id} className="space-y-4">
+                    {searchResult.results.length > 1 && (
+                      <div className="text-center">
+                        <h3 className="text-2xl font-bold modern-title">
+                          {resultData.result.exam_sessions?.name} - {resultData.result.exam_sessions?.year}
+                        </h3>
+                      </div>
+                    )}
+                    <ResultCard
+                      student={searchResult.student}
+                      result={resultData.result}
+                      subjects={resultData.subjects}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

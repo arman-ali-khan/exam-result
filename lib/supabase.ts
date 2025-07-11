@@ -133,7 +133,7 @@ export const signOut = async () => {
   if (error) {
     console.error('Error signing out:', error);
   }
-  return user;
+  return { error };
 };
 
 export const getUserProfile = async (userId: string) => {
